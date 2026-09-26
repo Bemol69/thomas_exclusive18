@@ -1,0 +1,9 @@
+{
+  "nombre": "POLERAS",
+  "productos": [
+    "polera-emporio-armani",
+    "polera-gstar"
+  ],
+  "orden": 100,
+  "visible": true
+}
