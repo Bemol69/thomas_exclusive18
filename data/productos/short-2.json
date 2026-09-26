@@ -1,0 +1,11 @@
+{
+  "nombre": "Short 2",
+  "precio": 20000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 00.54.26 (1).webp",
+  "descripcion": "Short negro rajado 40- 50",
+  "incluye": [],
+  "etiqueta": "Nuevo",
+  "orden": 2,
+  "agotado": false,
+  "visible": true
+}

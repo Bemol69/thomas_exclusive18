@@ -1,0 +1,9 @@
+{
+  "nombre": "Short",
+  "productos": [
+    "short-1",
+    "short-2"
+  ],
+  "orden": 100,
+  "visible": true
+}

@@ -1,0 +1,11 @@
+{
+  "nombre": "Short 1",
+  "precio": 20000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 00.56.06.webp",
+  "descripcion": "Short Color negro talla 40 - 50",
+  "incluye": [],
+  "etiqueta": "Nuevo",
+  "orden": 1,
+  "agotado": false,
+  "visible": true
+}
