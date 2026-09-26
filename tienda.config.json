@@ -1,0 +1,33 @@
+{
+  "_ayuda": "Datos fijos de la tienda (los define el desarrollador). Los datos de contacto y portada van en data/ajustes.json, que el cliente edita desde /admin.",
+  "nombre": "Thomas Exclusive",
+  "marca_a": "Thomas",
+  "marca_b": "Exclusive",
+  "rubro": "Zapatillas y ropa de lujo",
+  "schema_tipo": "ShoeStore",
+  "seo_titulo": "Zapatillas y ropa de lujo en Rancagua | Thomas Exclusive",
+  "seo_descripcion": "Zapatillas y ropa de marcas de lujo en Rancagua y Machalí: Gucci, Burberry, Bape, EA7 y más. Stock inmediato, encargos con abono y envíos a todo Chile.",
+  "github_repo": "Bemol69/thomas_exclusive18",
+  "site_url": "https://thomas-exclusive18.vercel.app",
+  "google_verificacion": "",
+  "hero": [
+    { "foto": "img/hero/hero-1.jpg", "alt": "Zapatillas Burberry Check sobre la alfombra Thomas Exclusive" },
+    { "foto": "img/hero/hero-2.jpg", "alt": "Bape Sta Shark negras y blancas" },
+    { "foto": "img/hero/hero-3.jpg", "alt": "Gucci Ace GG Supreme Bees" }
+  ],
+  "fuentes": { "titulos": "Oswald", "texto": "Inter" },
+  "colores": {
+    "fondo": "#0A0A0B",
+    "primario": "#E3202D",
+    "primario_oscuro": "#B3121D",
+    "primario_claro": "#2A0E11",
+    "secundario": "#C9CCD1",
+    "secundario_claro": "#1D1E21",
+    "acento": "#FF4651",
+    "acento_claro": "#2B0F12",
+    "tinta": "#F5F5F6",
+    "tinta_suave": "#A3A3AB",
+    "extra": "#E8E8EA",
+    "dorado": "#D4AF37"
+  }
+}

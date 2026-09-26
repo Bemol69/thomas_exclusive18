@@ -1,0 +1,6 @@
+{
+  "nombre": "Lujo",
+  "orden": 10,
+  "visible": true,
+  "productos": ["burberry-check", "gucci-ace-bees", "giuseppe-zanotti", "emporio-armani-ea7"]
+}

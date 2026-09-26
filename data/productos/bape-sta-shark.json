@@ -1,0 +1,11 @@
+{
+  "nombre": "Bape Sta · Shark",
+  "precio": 0,
+  "foto": "/img/productos/bape-sta-shark.jpg",
+  "descripcion": "Charol negro con estrella y cara de tiburón, suela blanca.",
+  "incluye": [],
+  "etiqueta": "Más pedida",
+  "agotado": false,
+  "visible": true,
+  "orden": 30
+}
