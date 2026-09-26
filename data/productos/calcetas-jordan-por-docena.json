@@ -3,9 +3,11 @@
   "precio": 17000,
   "foto": "/img/productos/calcetas-jordan-por-docena.jpg",
   "descripcion": "Precio por docena para revender. Desde 10 docenas, $15.500 la docena.",
-  "incluye": ["Envíos a todo Chile"],
+  "incluye": [
+    "Envíos a todo Chile"
+  ],
   "etiqueta": "Por mayor",
+  "orden": 120,
   "agotado": false,
-  "visible": true,
-  "orden": 120
+  "visible": false
 }
