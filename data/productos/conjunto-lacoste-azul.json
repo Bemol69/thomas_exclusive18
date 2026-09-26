@@ -5,7 +5,7 @@
   "descripcion": "Polerón con capucha y pantalón de buzo azul marino, con cocodrilo bordado.",
   "incluye": [],
   "etiqueta": "Nuevo color",
+  "orden": 80,
   "agotado": false,
-  "visible": true,
-  "orden": 80
+  "visible": false
 }
