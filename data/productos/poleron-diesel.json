@@ -5,7 +5,7 @@
   "descripcion": "Polerón con capucha negro con el logo Diesel en blanco.",
   "incluye": [],
   "etiqueta": "Tendencia",
+  "orden": 100,
   "agotado": false,
-  "visible": true,
-  "orden": 100
+  "visible": false
 }
