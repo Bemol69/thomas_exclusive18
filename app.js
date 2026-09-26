@@ -53,6 +53,20 @@ function toast(msg) {
   toast.timer = setTimeout(() => t.classList.remove('is-on'), 2400);
 }
 
+// Fotos con otra proporción que el marco 4:5 (flyers 2:3, fotos cuadradas) se muestran completas,
+// sin recortar, sobre un fondo difuminado de la misma imagen
+function fitImage(img) {
+  const box = img.closest('.card__img, .pm__frame');
+  if (!box || !img.naturalWidth || img.classList.contains('alt')) return;
+  const r = img.naturalHeight / img.naturalWidth;
+  const fit = r > 1.4 || r < 1.1;
+  box.classList.toggle('is-fit', fit);
+  if (fit) box.style.setProperty('--fit-bg', `url("${img.currentSrc || img.src}")`);
+}
+document.addEventListener('load', (e) => { if (e.target.tagName === 'IMG') fitImage(e.target); }, true);
+const fitAll = (root) => root.querySelectorAll('.card__img img, .pm__frame img').forEach((img) => { if (img.complete) fitImage(img); });
+fitAll(document);
+
 function lockScroll() {
   const open = $('#productModal').classList.contains('is-open') || $('#bag').classList.contains('is-open');
   document.body.style.overflow = open ? 'hidden' : '';
@@ -100,6 +114,7 @@ function renderProducts(cat = currentCat) {
   if (sort) list = [...list].sort(sort);
   $('#count').innerHTML = `Mostrando <strong>${list.length}</strong> ${list.length === 1 ? 'modelo' : 'modelos'}`;
   grid.innerHTML = list.map(card).join('');
+  fitAll(grid);
 }
 
 filters.addEventListener('click', (e) => {
@@ -121,6 +136,7 @@ function showPhoto(i) {
   const g = current.gallery;
   photo = (i + g.length) % g.length;
   $('#pmImg').src = g[photo];
+  fitImage($('#pmImg'));
   $('#pmThumbs').querySelectorAll('button').forEach((b, k) => b.classList.toggle('is-active', k === photo));
 }
 

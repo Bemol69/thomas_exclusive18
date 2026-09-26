@@ -385,3 +385,12 @@ button.card__img { display: block; width: 100%; padding: 0; border: 0; cursor: z
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Fotos que no son 4:5 (flyers, cuadradas): completas, sobre un fondo difuminado de la misma foto */
+.is-fit::before { content: ''; position: absolute; inset: -30px; background: var(--fit-bg) center / cover; filter: blur(26px) brightness(.45) saturate(1.2); transform: scale(1.1); }
+.is-fit > img:not(.alt) { position: relative; object-fit: contain; }
+.card:hover .is-fit > img:not(.alt) { transform: scale(1.02); }
+.card__img.is-fit .alt { z-index: 1; }
+.pm__frame { overflow: hidden; }
+.pm__frame.is-fit > img { object-fit: contain; }
+.pm__nav { z-index: 2; }
