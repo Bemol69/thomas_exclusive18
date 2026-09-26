@@ -5,7 +5,7 @@
   "descripcion": "Lona GG Supreme con franja Web verde y roja y abejas bordadas.",
   "incluye": [],
   "etiqueta": "",
-  "agotado": false,
-  "visible": true,
-  "orden": 20
+  "orden": 20,
+  "agotado": true,
+  "visible": true
 }
