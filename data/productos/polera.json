@@ -1,0 +1,11 @@
+{
+  "nombre": "Polera",
+  "precio": 10000,
+  "foto": "/img/productos/images.webp",
+  "descripcion": "Polera de la U lo mas grande",
+  "incluye": [],
+  "etiqueta": "Nuevo",
+  "orden": 2,
+  "agotado": false,
+  "visible": true
+}
