@@ -1,0 +1,11 @@
+{
+  "nombre": "Lacoste · Conjunto azul marino",
+  "precio": 0,
+  "foto": "/img/productos/conjunto-lacoste-azul.jpg",
+  "descripcion": "Polerón con capucha y pantalón de buzo azul marino, con cocodrilo bordado.",
+  "incluye": [],
+  "etiqueta": "Nuevo color",
+  "agotado": false,
+  "visible": true,
+  "orden": 80
+}

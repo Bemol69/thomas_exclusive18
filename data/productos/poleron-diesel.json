@@ -1,0 +1,11 @@
+{
+  "nombre": "Diesel · Polerón negro",
+  "precio": 0,
+  "foto": "/img/productos/poleron-diesel.jpg",
+  "descripcion": "Polerón con capucha negro con el logo Diesel en blanco.",
+  "incluye": [],
+  "etiqueta": "Tendencia",
+  "agotado": false,
+  "visible": true,
+  "orden": 100
+}

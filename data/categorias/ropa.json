@@ -1,0 +1,6 @@
+{
+  "nombre": "Ropa",
+  "orden": 20,
+  "visible": true,
+  "productos": ["conjunto-lacoste-negro", "conjunto-lacoste-azul", "conjunto-ea7", "poleron-diesel"]
+}

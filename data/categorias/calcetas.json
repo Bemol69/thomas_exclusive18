@@ -1,0 +1,6 @@
+{
+  "nombre": "Calcetas",
+  "orden": 30,
+  "visible": true,
+  "productos": ["calcetas-jordan-tripack", "calcetas-jordan-por-docena"]
+}
