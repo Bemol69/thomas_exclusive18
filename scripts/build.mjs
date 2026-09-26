@@ -207,6 +207,9 @@ const jsonLd = {
       logo: abs('img/logo.jpg'),
       image: [OG_IMAGE, abs('img/logo.jpg')],
       email: T.email || undefined,
+      telephone: `+${T.whatsapp}`,
+      // zona de entregas presenciales + envíos a todo Chile
+      areaServed: [T.ciudad, 'Machalí', 'Chile'].filter(Boolean).map((name) => ({ '@type': name === 'Chile' ? 'Country' : 'City', name })),
       priceRange: precios.length ? `${clp(Math.min(...precios))} – ${clp(Math.max(...precios))}` : undefined,
       currenciesAccepted: 'CLP',
       address: {
@@ -227,7 +230,8 @@ const jsonLd = {
     {
       '@type': 'ItemList',
       name: 'Catálogo',
-      itemListElement: productos.map((p, i) => ({
+      // Google exige precio en los Product: los "Consultar precio" quedan fuera de los datos estructurados
+      itemListElement: productos.filter((p) => p.precio > 0).map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
         item: {
@@ -235,13 +239,20 @@ const jsonLd = {
           name: p.nombre,
           image: [p.foto, ...p.fotos].map(abs),
           description: p.descripcion || p.incluye.join(', ') || p.nombre,
-          offers: p.precio > 0 ? {
+          offers: {
             '@type': 'Offer',
+            url: `${SITE}/#catalogo`,
             price: p.precio,
             priceCurrency: 'CLP',
             availability: `https://schema.org/${p.agotado ? 'OutOfStock' : 'InStock'}`,
             seller: { '@id': `${SITE}/#tienda` },
-          } : undefined,
+            // la tienda no acepta cambios ni devoluciones
+            hasMerchantReturnPolicy: {
+              '@type': 'MerchantReturnPolicy',
+              applicableCountry: 'CL',
+              returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+            },
+          },
         },
       })),
     },
