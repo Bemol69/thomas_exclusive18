@@ -1,6 +1,9 @@
 {
   "nombre": "Zapatillas por encargo",
-  "productos": [],
+  "productos": [
+    "jordan-spizike",
+    "giuseppe-zanotti"
+  ],
   "orden": 100,
   "visible": true
 }
