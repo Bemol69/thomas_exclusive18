@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERA GSTAR",
+  "precio": 12000,
+  "foto": "/img/productos/IMG_4536.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "M"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}
