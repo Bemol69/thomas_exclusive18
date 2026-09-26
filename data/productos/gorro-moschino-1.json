@@ -1,0 +1,11 @@
+{
+  "nombre": "GORRO MOSCHINO",
+  "precio": 20000,
+  "foto": "/img/productos/IMG_4508.webp",
+  "descripcion": "CALIDAD IDÉNTICA CON TODOS SUS  DETALLES",
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 4,
+  "agotado": false,
+  "visible": true
+}
