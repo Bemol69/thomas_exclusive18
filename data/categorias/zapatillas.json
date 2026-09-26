@@ -1,6 +1,13 @@
 {
-  "nombre": "Zapatillas",
+  "nombre": "Zapatillas entrega inmediata",
+  "productos": [
+    "burberry-check",
+    "gucci-ace-bees",
+    "bape-sta-shark",
+    "jordan-spizike",
+    "giuseppe-zanotti",
+    "emporio-armani-ea7"
+  ],
   "orden": 10,
-  "visible": true,
-  "productos": ["burberry-check", "gucci-ace-bees", "bape-sta-shark", "jordan-spizike", "giuseppe-zanotti", "emporio-armani-ea7"]
+  "visible": true
 }
