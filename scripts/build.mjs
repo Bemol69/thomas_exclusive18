@@ -283,6 +283,7 @@ html = render(html, 'index.html', true)
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'data'), { recursive: true });
 cpSync(join(ROOT, 'img'), join(DIST, 'img'), { recursive: true });
+if (existsSync(join(ROOT, 'favicon.ico'))) cpSync(join(ROOT, 'favicon.ico'), join(DIST, 'favicon.ico')); // Google busca el ícono aquí
 cpSync(join(ROOT, 'admin'), join(DIST, 'admin'), { recursive: true });
 cpSync(join(DATA, 'catalogo.json'), join(DIST, 'data', 'catalogo.json'));
 cpSync(join(DATA, 'regiones.json'), join(DIST, 'data', 'regiones.json'));
