@@ -5,7 +5,7 @@
   "descripcion": "Polerón con capucha y pantalón de buzo en gris oscuro con logo EA7.",
   "incluye": [],
   "etiqueta": "",
+  "orden": 90,
   "agotado": false,
-  "visible": true,
-  "orden": 90
+  "visible": false
 }
