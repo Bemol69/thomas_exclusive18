@@ -2,7 +2,15 @@
   "nombre": "SIX RING",
   "precio": 85000,
   "foto": "/img/productos/IMG_4226.webp",
-  "descripcion": "ZAPATILLA DISPONIBLE SIX RING \nTALLAS DISPONIBLES 40-41-42-43-44👹\n\nSi eres de Rancagua o machali puedes pedir dos tallas al momento de la entrega para ver cuál te queda mejor!",
+  "fotos": [],
+  "descripcion": "Jordan Six Rings en charol negro con detalles azules y suela blanca. Si eres de Rancagua o Machalí, puedes pedir dos tallas al momento de la entrega y quedarte con la que mejor te calce.",
+  "tallas": [
+    "40",
+    "41",
+    "42",
+    "43",
+    "44"
+  ],
   "incluye": [],
   "etiqueta": "",
   "orden": 1,

@@ -118,15 +118,37 @@ collections:
         hint: "Solo números, sin puntos ni signo $. Ej: 25990"
 
       - name: foto
-        label: Foto
+        label: Foto principal
         widget: image
-        hint: "Ideal una foto vertical (4:5) del producto."
+        hint: "La que se ve en el catálogo. Ideal una foto vertical (4:5)."
+
+      - name: fotos
+        label: Más fotos
+        label_singular: foto
+        widget: list
+        required: false
+        field:
+          name: foto
+          label: Foto
+          widget: image
+        hint: "Opcional. Otros ángulos, la suela, la etiqueta, puesto… La primera aparece al pasar el mouse sobre el producto."
 
       - name: descripcion
         label: Descripción
         widget: text
         required: false
-        hint: "Opcional. Aparece bajo el nombre."
+        hint: "Opcional. Una o dos frases sobre el producto. Las tallas NO van aquí: van en el campo de abajo."
+
+      - name: tallas
+        label: Tallas disponibles
+        label_singular: talla
+        widget: list
+        required: false
+        field:
+          name: talla
+          label: Talla
+          widget: string
+        hint: "Una talla por línea (botón «Agregar talla»). Ej: 40, 42, 44 o S, M, L. Déjalo vacío si es talla única (gorros, accesorios). Cuando se agote una talla, bórrala de aquí."
 
       - name: incluye
         label: Qué incluye
@@ -186,6 +208,13 @@ collections:
           - { name: ciudad, label: Ciudad, widget: string }
           - { name: region, label: Región, widget: string, required: false }
           - { name: envios, label: Cobertura de envíos, widget: string, required: false, hint: "Ej: Envíos a todo Chile" }
+          - name: empresas_envio
+            label: Empresas de envío
+            widget: select
+            multiple: true
+            options: [Starken, Chilexpress, Blue Express]
+            default: [Starken, Chilexpress, Blue Express]
+            hint: "Las que el cliente puede elegir al pedir un envío a otra ciudad."
           - { name: horario_dias, label: Días de atención, widget: string, default: "Lunes a domingo" }
           - { name: hora_abre, label: Hora de apertura, widget: string, pattern: ['^\d{2}:\d{2}$', "Formato HH:MM, ej 09:00"] }
           - { name: hora_cierra, label: Hora de cierre, widget: string, pattern: ['^\d{2}:\d{2}$', "Formato HH:MM, ej 20:00"] }

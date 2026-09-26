@@ -7,6 +7,11 @@
   "ciudad": "Rancagua",
   "region": "Región de O'Higgins",
   "envios": "Envíos a todo Chile",
+  "empresas_envio": [
+    "Starken",
+    "Chilexpress",
+    "Blue Express"
+  ],
   "horario_dias": "",
   "hora_abre": "",
   "hora_cierra": "",
