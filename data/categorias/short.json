@@ -1,8 +1,7 @@
 {
   "nombre": "Short",
   "productos": [
-    "short-1",
-    "short-2"
+    "short-estilo-ae"
   ],
   "orden": 100,
   "visible": true
