@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERA DIESEL",
+  "precio": 12000,
+  "foto": "/img/productos/IMG_4543.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "S"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1,
+  "agotado": false,
+  "visible": true
+}
