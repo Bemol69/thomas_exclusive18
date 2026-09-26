@@ -3,9 +3,11 @@
   "precio": 6000,
   "foto": "/img/productos/calcetas-jordan-tripack.jpg",
   "descripcion": "Tres pares de caña alta con el logo Jumpman. Negras, blancas o grises.",
-  "incluye": ["2 tripacks por $10.000"],
+  "incluye": [
+    "2 tripacks por $10.000"
+  ],
   "etiqueta": "Detalle",
+  "orden": 110,
   "agotado": false,
-  "visible": true,
-  "orden": 110
+  "visible": false
 }
