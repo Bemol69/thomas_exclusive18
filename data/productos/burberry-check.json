@@ -1,11 +1,11 @@
 {
   "nombre": "Burberry · Check Vintage",
-  "precio": 0,
+  "precio": 110000,
   "foto": "/img/productos/burberry-check.jpg",
-  "descripcion": "Low top con el clásico cuadrillé Burberry y plataforma negra.",
+  "descripcion": "Low top con el clásico cuadrillé Burberry y plataforma negra.\nTalla 39-40🚛",
   "incluye": [],
   "etiqueta": "Nuevo ingreso",
+  "orden": 10,
   "agotado": false,
-  "visible": true,
-  "orden": 10
+  "visible": true
 }
