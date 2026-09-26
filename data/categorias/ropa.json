@@ -1,6 +1,10 @@
 {
   "nombre": "Ropa",
+  "productos": [
+    "conjunto-lacoste-azul",
+    "conjunto-ea7",
+    "poleron-diesel"
+  ],
   "orden": 20,
-  "visible": true,
-  "productos": ["conjunto-lacoste-negro", "conjunto-lacoste-azul", "conjunto-ea7", "poleron-diesel"]
+  "visible": true
 }
