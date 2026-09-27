@@ -6,6 +6,7 @@ const WHATSAPP_NUMBER = TIENDA.whatsapp;
 const ENTREGAS = {
   rancagua: 'Entrega presencial en Rancagua',
   machali: 'Entrega presencial en Machalí',
+  retiro: 'Retiro (lo coordinamos por WhatsApp)',
   envio: 'Envío',
 };
 const PAGOS = {
@@ -472,7 +473,7 @@ function buildMessage(o) {
     else L.push(`🏢 *Sucursal:* ${o.sucursal || '_(por completar)_'}`);
   } else {
     L.push(`🤝 *Entrega:* ${ENTREGAS[o.entrega]}`);
-    if (o.sector) L.push(`📍 *Sector:* ${o.sector}`);
+    if (o.sector && o.entrega !== 'retiro') L.push(`📍 *Sector:* ${o.sector}`);
   }
   L.push(PAGOS[o.pago] || PAGOS.transferencia);
   if (o.nota) L.push(`💬 *Comentario:* _${o.nota}_`);
@@ -503,6 +504,7 @@ function updateOrder() {
   const lines = bagLines();
   document.querySelectorAll('[data-envio]').forEach((el) => { el.hidden = !o.envio; });
   document.querySelectorAll('[data-local]').forEach((el) => { el.hidden = o.envio; });
+  document.querySelectorAll('[data-sector]').forEach((el) => { el.hidden = o.envio || o.entrega === 'retiro'; });
   document.querySelectorAll('[data-modo]').forEach((el) => { el.hidden = el.dataset.modo !== o.modo; });
   // efectivo solo se puede en entregas presenciales
   if (o.envio && o.pago === 'efectivo') form.querySelector('input[name="pago"][value="transferencia"]').checked = true;
@@ -523,7 +525,9 @@ function updateOrder() {
   $('#bagTotalLabel').textContent = aCotizar() ? 'Total (sin productos a cotizar)' : 'Total';
   $('#bagHint').textContent = o.envio
     ? 'El costo del envío se cotiza por WhatsApp según tu comuna y la empresa que elijas.'
-    : 'Agendamos la entrega contigo por WhatsApp. Pagas al recibir.';
+    : o.entrega === 'retiro'
+      ? 'Coordinamos contigo por WhatsApp el lugar y horario del retiro.'
+      : 'Agendamos la entrega contigo por WhatsApp. Pagas al recibir.';
   $('#msgPreview').innerHTML = formatPreview(buildMessage(readOrder()));
 }
 
