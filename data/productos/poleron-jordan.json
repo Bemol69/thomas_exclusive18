@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERON JORDAN",
+  "precio": 28000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 9.48.09 PM.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "S"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 10,
+  "agotado": false,
+  "visible": true
+}
