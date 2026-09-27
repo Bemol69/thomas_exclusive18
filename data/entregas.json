@@ -1,19 +1,19 @@
 {
   "entregas": [
     {
-      "archivo": "/img/entregas/entrega-1.jpg",
+      "archivo": "/img/productos/WhatsApp Video 2026-09-26 at 21.55.54.mp4",
       "titulo": "Entrega presencial",
       "texto": "Pedido entregado en Rancagua",
       "descripcion": "Entrega presencial de un pedido en Rancagua"
     },
     {
-      "archivo": "/img/entregas/entrega-2.jpg",
+      "archivo": "/img/productos/WhatsApp Video 2026-09-26 at 21.56.26.mp4",
       "titulo": "Todos los días",
       "texto": "Agendamos entregas a diario",
       "descripcion": "Thomas entregando un pedido a domicilio"
     },
     {
-      "archivo": "/img/entregas/entrega-3.jpg",
+      "archivo": "/img/entregas/WhatsApp Video 2026-09-26 at 21.56.13.mp4",
       "titulo": "Paga al recibir",
       "texto": "Efectivo, transferencia o tarjeta",
       "descripcion": "Entrega de zapatillas a un cliente en la calle"
