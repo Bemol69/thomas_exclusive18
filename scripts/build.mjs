@@ -7,14 +7,49 @@
 // Uso local: node scripts/build.mjs  →  servir la carpeta dist/
 import { readdirSync, readFileSync, writeFileSync, rmSync, mkdirSync, cpSync, existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DATA = join(ROOT, 'data');
 const DIST = join(ROOT, 'dist');
 
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
+
+rmSync(DIST, { recursive: true, force: true });
+mkdirSync(join(DIST, 'data'), { recursive: true });
+
+// ---------- Fotos livianas ----------
+// Las tarjetas, la portada, el flyer y las entregas muestran las fotos en tamaño chico:
+// se genera una copia WebP del ancho justo en dist/img/_opt/. El nombre lleva un hash del
+// contenido, así el navegador la guarda en caché y una foto reemplazada en /admin se ve al tiro.
+// Las originales se mantienen (ficha del producto, Google, redes sociales).
+// Si sharp no está instalado, se usan las originales.
+let sharp = null;
+try { sharp = (await import('sharp')).default; } catch { console.warn('⚠️  sharp no está instalado (npm install): se usan las fotos originales'); }
+const OPT = 'img/_opt';
+const optimizadas = new Map();
+function optimizar(src, ancho) {
+  const path = String(src || '').replace(/^\//, '');
+  if (!sharp || !/\.(jpe?g|png|webp)$/i.test(path) || !existsSync(join(ROOT, path))) return Promise.resolve(path);
+  const key = `${path}@${ancho}`;
+  if (!optimizadas.has(key)) {
+    optimizadas.set(key, (async () => {
+      try {
+        const buf = readFileSync(join(ROOT, path));
+        const out = `${OPT}/${createHash('sha1').update(buf).digest('hex').slice(0, 12)}-${ancho}.webp`;
+        mkdirSync(join(DIST, OPT), { recursive: true });
+        await sharp(buf).rotate().resize({ width: ancho, withoutEnlargement: true }).webp({ quality: 75 }).toFile(join(DIST, out));
+        return out;
+      } catch (e) {
+        console.warn(`⚠️  No se pudo optimizar ${path}: ${e.message}`);
+        return path;
+      }
+    })());
+  }
+  return optimizadas.get(key);
+}
+const MINI = 600; // ancho de las fotos en las tarjetas del catálogo (≈300 px en pantalla, x2 para pantallas retina)
 const config = readJson(join(ROOT, 'tienda.config.json'));
 const readData = (file) => (existsSync(join(DATA, file)) ? readJson(join(DATA, file)) : {});
 const ajustes = readData('ajustes.json');
@@ -149,6 +184,12 @@ const productos = readFolder('productos')
   .sort(byOrder)
   .map(({ orden, ...p }) => p);
 
+// Versiones chicas para las tarjetas y miniaturas (la ficha del producto usa las originales)
+await Promise.all(productos.map(async (p) => {
+  p.mini = await optimizar(p.foto, MINI);
+  p.minis = await Promise.all(p.fotos.map((f) => optimizar(f, MINI)));
+}));
+
 const ids = new Set(productos.map((p) => p.id));
 
 const categorias = readFolder('categorias')
@@ -221,6 +262,9 @@ const colores = config.colores || {};
 const fuentes = config.fuentes || {};
 const hero = Array.isArray(config.hero) ? config.hero : [];
 const heroFoto = (i) => (hero[i] && hero[i].foto) || (productos[i] && productos[i].foto) || 'img/logo.jpg';
+const HERO_OPT = await Promise.all([optimizar(heroFoto(0), 1100), optimizar(heroFoto(1), 520), optimizar(heroFoto(2), 600)]);
+const FLYER_OPT = F.imagen ? await optimizar(F.imagen, 880) : '';
+for (const e of entregas) if (!e.video) e.archivo = await optimizar(e.archivo, 700);
 const heroAlt = (i) => (hero[i] && hero[i].alt) || (productos[i] && productos[i].nombre) || T.nombre;
 const fuenteParam = (f, pesos) => `family=${encodeURIComponent(f).replace(/%20/g, '+')}:wght@${pesos}`;
 const FUENTE_TITULOS = fuentes.titulos || 'Dancing Script';
@@ -236,7 +280,7 @@ const VARS = {
   INSTAGRAM: T.instagram, TIKTOK: T.tiktok, EMAIL: T.email,
   HORARIO_DIAS: T.horario_dias, HORA_ABRE: T.hora_abre, HORA_CIERRA: T.hora_cierra,
   HERO_TITULO: T.hero_titulo, HERO_DESTACADO: T.hero_destacado, HERO_BAJADA: T.hero_bajada,
-  HERO_1: heroFoto(0), HERO_1_ALT: heroAlt(0), HERO_2: heroFoto(1), HERO_2_ALT: heroAlt(1), HERO_3: heroFoto(2), HERO_3_ALT: heroAlt(2),
+  HERO_1: HERO_OPT[0], HERO_1_ALT: heroAlt(0), HERO_2: HERO_OPT[1], HERO_2_ALT: heroAlt(1), HERO_3: HERO_OPT[2], HERO_3_ALT: heroAlt(2),
   MAPA_QUERY: encodeURIComponent([T.direccion, T.ciudad, 'Chile'].filter(Boolean).join(', ')),
   FUENTES_URL: `https://fonts.googleapis.com/css2?${fuenteParam(FUENTE_TITULOS, '600;700')}&${fuenteParam(FUENTE_TEXTO, '400;500;600;700')}&display=swap`,
   FUENTE_TITULOS, FUENTE_TEXTO,
@@ -246,7 +290,7 @@ const VARS = {
   COLOR_ACENTO: colores.acento, COLOR_ACENTO_CLARO: colores.acento_claro,
   COLOR_TINTA: colores.tinta, COLOR_TINTA_SUAVE: colores.tinta_suave,
   COLOR_FONDO: colores.fondo, COLOR_EXTRA: colores.extra, COLOR_DORADO: colores.dorado,
-  FLYER: F.imagen, FLYER_POPUP: F.popup, FLYER_TITULO: F.titulo, FLYER_TEXTO: F.descripcion,
+  FLYER: FLYER_OPT, FLYER_POPUP: F.popup ? FLYER_OPT : '', FLYER_TITULO: F.titulo, FLYER_TEXTO: F.descripcion,
   FLYER_ALT: F.descripcion || F.titulo,
   FRANJA2: F2.mostrar ? '1' : '',
   FRANJA1_SEG: String(F1.segundos), FRANJA2_SEG: String(F2.segundos),
@@ -281,8 +325,8 @@ const card = (p) => `
       <button class="card__img" type="button" data-view="${esc(p.id)}" aria-label="Ver ${esc(p.nombre)}">
         ${p.agotado ? '<span class="badge badge--soldout">Agotado</span>' : p.etiqueta ? `<span class="badge">${esc(p.etiqueta)}</span>` : ''}
         ${p.fotos.length ? `<span class="card__more">+${p.fotos.length} ${p.fotos.length === 1 ? 'foto' : 'fotos'}</span>` : ''}
-        <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy">
-        ${p.fotos[0] ? `<img class="alt" src="${esc(p.fotos[0])}" alt="" loading="lazy">` : ''}
+        <img src="${esc(p.mini)}" alt="${esc(p.nombre)}" loading="lazy" decoding="async">
+        ${p.minis[0] ? `<img class="alt" src="${esc(p.minis[0])}" alt="" loading="lazy" decoding="async">` : ''}
       </button>
       <div class="card__body">
         <h3>${esc(p.nombre)}</h3>
@@ -300,7 +344,7 @@ const card = (p) => `
 const entregaHtml = (e) => `
           <figure class="reel">
             ${e.video
-              ? `<video src="${esc(e.archivo)}#t=0.1" muted loop playsinline autoplay preload="metadata" aria-label="${esc(e.descripcion)}"></video>`
+              ? `<video data-src="${esc(e.archivo)}#t=0.1" muted loop playsinline preload="none" aria-label="${esc(e.descripcion)}"></video>`
               : `<img src="${esc(e.archivo)}" alt="${esc(e.descripcion)}" loading="lazy">`}
             ${e.titulo || e.texto ? `<figcaption>${e.titulo ? `<strong>${esc(e.titulo)}</strong>` : ''}${e.texto ? `<span>${esc(e.texto)}</span>` : ''}</figcaption>` : ''}
           </figure>`;
@@ -401,16 +445,21 @@ html = render(html, 'index.html', true)
   .replace('<!-- FRANJA1 -->', [...F1.items, ...F1.items].map((t) => `<span>${esc(t)}</span>`).join(''))
   .replaceAll('<!-- FRANJA2 -->', [...F2.items, ...F2.items].map((t) => `<span>${esc(t)}</span>`).join(''));
 
-rmSync(DIST, { recursive: true, force: true });
-mkdirSync(join(DIST, 'data'), { recursive: true });
 cpSync(join(ROOT, 'img'), join(DIST, 'img'), { recursive: true });
 if (existsSync(join(ROOT, 'favicon.ico'))) cpSync(join(ROOT, 'favicon.ico'), join(DIST, 'favicon.ico')); // Google busca el ícono aquí
 cpSync(join(ROOT, 'admin'), join(DIST, 'admin'), { recursive: true });
 cpSync(join(DATA, 'catalogo.json'), join(DIST, 'data', 'catalogo.json'));
 cpSync(join(DATA, 'regiones.json'), join(DIST, 'data', 'regiones.json'));
+// styles.css y app.js llevan ?v=hash: se guardan en caché y cada cambio publicado se descarga de nuevo
+const css = render(readFileSync(join(ROOT, 'styles.css'), 'utf8'), 'styles.css', false);
+const js = render(readFileSync(join(ROOT, 'app.js'), 'utf8'), 'app.js', false);
+const version = (text) => createHash('sha1').update(text).digest('hex').slice(0, 10);
+html = html
+  .replace('href="styles.css"', `href="styles.css?v=${version(css)}"`)
+  .replace('src="app.js"', `src="app.js?v=${version(js)}"`);
 writeFileSync(join(DIST, 'index.html'), html);
-writeFileSync(join(DIST, 'styles.css'), render(readFileSync(join(ROOT, 'styles.css'), 'utf8'), 'styles.css', false));
-writeFileSync(join(DIST, 'app.js'), render(readFileSync(join(ROOT, 'app.js'), 'utf8'), 'app.js', false));
+writeFileSync(join(DIST, 'styles.css'), css);
+writeFileSync(join(DIST, 'app.js'), js);
 writeFileSync(join(DIST, 'admin', 'config.yml'), render(readFileSync(join(ROOT, 'admin', 'config.yml'), 'utf8'), 'admin/config.yml', false));
 
 writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${SITE}/sitemap.xml\n`);

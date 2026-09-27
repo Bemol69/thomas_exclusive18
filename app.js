@@ -93,8 +93,8 @@ const card = (p) => `
       <button class="card__img" type="button" data-view="${esc(p.id)}" aria-label="Ver ${esc(p.name)}">
         ${p.agotado ? '<span class="badge badge--soldout">Agotado</span>' : p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
         ${p.gallery.length > 1 ? `<span class="card__more">+${p.gallery.length - 1} ${p.gallery.length === 2 ? 'foto' : 'fotos'}</span>` : ''}
-        <img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">
-        ${p.gallery[1] ? `<img class="alt" src="${esc(p.gallery[1])}" alt="" loading="lazy">` : ''}
+        <img src="${esc(p.thumb)}" alt="${esc(p.name)}" loading="lazy" decoding="async">
+        ${p.thumbs[1] ? `<img class="alt" src="${esc(p.thumbs[1])}" alt="" loading="lazy" decoding="async">` : ''}
       </button>
       <div class="card__body">
         <h3>${esc(p.name)}</h3>
@@ -157,7 +157,7 @@ function openProduct(id) {
 
   $('#pmImg').alt = p.name;
   $('#pmThumbs').innerHTML = p.gallery.length > 1
-    ? p.gallery.map((src, i) => `<button type="button" data-photo="${i}" aria-label="Foto ${i + 1}"><img src="${esc(src)}" alt="" loading="lazy"></button>`).join('')
+    ? p.thumbs.map((src, i) => `<button type="button" data-photo="${i}" aria-label="Foto ${i + 1}"><img src="${esc(src)}" alt="" loading="lazy"></button>`).join('')
     : '';
   pModal.classList.toggle('has-gallery', p.gallery.length > 1);
   showPhoto(0);
@@ -351,7 +351,7 @@ function renderBag(bump) {
 
   $('#bagList').innerHTML = lines.map((l, i) => `
     <li class="bag-item">
-      <img src="${esc(l.p.img)}" alt="">
+      <img src="${esc(l.p.thumb || l.p.img)}" alt="">
       <div class="bag-item__main">
         <h4>${esc(l.p.name)}</h4>
         <small>${l.size ? `Talla ${esc(l.size)}${l.sinTalla ? ' <em>(ya no disponible)</em>' : ''} · ` : ''}${l.p.price ? clp(l.p.price) : 'A cotizar'}</small>
@@ -607,14 +607,19 @@ if (promo) {
   }
 }
 
-// ===== VIDEOS DE ENTREGAS: solo se reproducen cuando están en pantalla =====
+// ===== VIDEOS DE ENTREGAS: se descargan al acercarse a la sección y solo se reproducen en pantalla =====
 const reelVideos = document.querySelectorAll('.reel video');
+const loadVideo = (v) => { if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; } };
 if (reelVideos.length && 'IntersectionObserver' in window) {
+  const near = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
+    if (isIntersecting) { loadVideo(target); near.unobserve(target); }
+  }), { rootMargin: '600px 0px' });
   const io = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
-    if (isIntersecting) target.play().catch(() => {});
-    else target.pause();
+    if (isIntersecting) { loadVideo(target); target.play().catch(() => {}); } else target.pause();
   }), { threshold: 0.25 });
-  reelVideos.forEach((v) => io.observe(v));
+  reelVideos.forEach((v) => { near.observe(v); io.observe(v); });
+} else {
+  reelVideos.forEach((v) => { loadVideo(v); v.autoplay = true; v.play().catch(() => {}); });
 }
 
 // ===== CARGA DEL CATÁLOGO =====
@@ -638,12 +643,18 @@ async function loadProducts() {
     CUPONES = Array.isArray(data.cupones) ? data.cupones : [];
     PRODUCTS = (data.productos || []).map((p) => {
       const img = path(p.foto || 'img/logo.jpg');
+      const fotos = Array.isArray(p.fotos) ? p.fotos.map(path) : [];
+      // versiones livianas que genera el build (si faltan, se usan las originales)
+      const minis = Array.isArray(p.minis) && p.minis.length === fotos.length ? p.minis.map(path) : fotos;
+      const thumb = p.mini ? path(p.mini) : img;
       return {
         id: p.id,
         name: p.nombre,
         price: Number(p.precio) || 0,
         img,
-        gallery: [img, ...(Array.isArray(p.fotos) ? p.fotos.map(path) : [])],
+        gallery: [img, ...fotos],
+        thumb,
+        thumbs: [thumb, ...minis],
         desc: p.descripcion || '',
         sizes: Array.isArray(p.tallas) ? p.tallas.map(String) : [],
         tags: tagsOf[p.id] || [],
