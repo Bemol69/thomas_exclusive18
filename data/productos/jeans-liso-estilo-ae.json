@@ -1,0 +1,16 @@
+{
+  "nombre": "JEANS LISO ESTILO AE",
+  "precio": 20000,
+  "foto": "/img/productos/IMG_4468.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "46",
+    "50"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}

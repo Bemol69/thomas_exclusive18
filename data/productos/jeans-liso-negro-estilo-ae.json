@@ -1,0 +1,16 @@
+{
+  "nombre": "JEANS LISO NEGRO ESTILO AE",
+  "precio": 25000,
+  "foto": "/img/productos/IMG_4110.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "44",
+    "42"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}
