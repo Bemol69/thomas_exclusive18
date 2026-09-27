@@ -1,0 +1,16 @@
+{
+  "nombre": "SIX RING",
+  "precio": 80000,
+  "foto": "/img/productos/IMG_3750.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "40",
+    "43"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}
