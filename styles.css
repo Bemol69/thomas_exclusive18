@@ -367,6 +367,32 @@ button.card__img { display: block; width: 100%; padding: 0; border: 0; cursor: z
   .wa-float { width: 52px; height: 52px; bottom: 16px; }
 }
 
+
+/* ===== Códigos de descuento ===== */
+.coupon { margin: -6px 0 18px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.coupon .pm__label { display: block; margin-bottom: 8px; }
+.coupon__row { display: flex; gap: 8px; }
+.coupon__row input { flex: 1; min-width: 0; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; font: 700 15px/1 var(--font-text); letter-spacing: .08em; text-transform: uppercase; }
+.coupon__row input::placeholder { font-weight: 500; letter-spacing: .02em; text-transform: none; }
+.coupon__row input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent); }
+.coupon__status { display: grid; gap: 4px; justify-items: start; margin-top: 10px; padding: 12px 14px; border-radius: 10px; font-size: 13.5px; }
+#cuponForm[hidden] + .coupon__status { margin-top: 0; }
+.coupon__status strong { font: 700 1.1rem/1.15 var(--font-title); text-transform: uppercase; letter-spacing: .02em; }
+.coupon__status small { color: var(--ink-soft); font-size: 12.5px; }
+.coupon__status em { font-style: normal; font-size: 13px; color: var(--gold); }
+.coupon__status.is-ok { background: color-mix(in srgb, #25d366 12%, var(--bg)); border: 1px solid color-mix(in srgb, #25d366 55%, transparent); }
+.coupon__status.is-warn { background: color-mix(in srgb, var(--gold) 10%, var(--bg)); border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent); }
+.coupon__status.is-bad { background: var(--primary-soft); border: 1px solid color-mix(in srgb, var(--primary) 60%, transparent); }
+.coupon__status.is-bad strong { color: #ff8f8f; }
+.coupon__badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: #25d366; color: #05210f; font: 800 11px/1 var(--font-text); letter-spacing: .1em; text-transform: uppercase; }
+.is-warn .coupon__badge { background: var(--gold); color: #1a1405; }
+.coupon__badge .ic { width: 13px; height: 13px; stroke-width: 3; }
+.coupon__rm { margin-top: 4px; padding: 0; border: 0; background: none; color: var(--ink-soft); font: 600 12.5px/1 var(--font-text); text-decoration: underline; cursor: pointer; }
+.coupon__rm:hover { color: var(--ink); }
+.tag-off { display: inline-block; padding: 3px 7px; border-radius: 6px; background: color-mix(in srgb, #25d366 16%, transparent); color: #5ee08f; font: 700 10.5px/1 var(--font-text); letter-spacing: .05em; text-transform: uppercase; }
+.bag__sums { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-size: 13.5px; color: var(--ink-soft); padding-bottom: 6px; border-bottom: 1px dashed var(--line); }
+.bag__sums .off { color: #5ee08f; font-weight: 700; }
+
 @media (max-width: 900px) {
   .nav__links { display: none; }
   .hero__inner { grid-template-columns: 1fr; gap: 32px; }

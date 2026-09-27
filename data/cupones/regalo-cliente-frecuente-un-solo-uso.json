@@ -1,0 +1,11 @@
+{
+  "titulo": "Regalo cliente frecuente (un solo uso)",
+  "codigo": "TE-7K2Q",
+  "tipo": "porcentaje",
+  "valor": 15,
+  "categorias": [],
+  "productos": [],
+  "minimo": 0,
+  "vence": "",
+  "activo": false
+}

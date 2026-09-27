@@ -1,0 +1,13 @@
+{
+  "titulo": "Descuento zapatillas general",
+  "codigo": "ZAPAS10",
+  "tipo": "porcentaje",
+  "valor": 10,
+  "categorias": [
+    "zapatillas"
+  ],
+  "productos": [],
+  "minimo": 0,
+  "vence": "",
+  "activo": false
+}

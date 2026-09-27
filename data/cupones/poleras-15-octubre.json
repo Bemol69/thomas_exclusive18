@@ -1,0 +1,13 @@
+{
+  "titulo": "Poleras 15% octubre",
+  "codigo": "POLERAS15",
+  "tipo": "porcentaje",
+  "valor": 15,
+  "categorias": [
+    "poleras"
+  ],
+  "productos": [],
+  "minimo": 0,
+  "vence": "2026-10-31",
+  "activo": false
+}

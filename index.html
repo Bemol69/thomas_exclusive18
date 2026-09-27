@@ -36,6 +36,7 @@
       <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
       <symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.28-3.66a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.8a1 1 0 0 1-.96-.73L2.01 6.02a.5.5 0 0 1 .8-.52l4.28 3.66a1 1 0 0 0 1.52-.3zM5 21h14"/></symbol>
       <symbol id="i-cash" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
       <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
       <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></symbol>
       <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
@@ -313,6 +314,17 @@
         </div>
         <ul class="bag__list" id="bagList"></ul>
 
+        <div class="coupon" id="couponBox" hidden>
+          <div id="cuponForm">
+            <label class="pm__label" for="fCupon">¿Tienes un código de descuento?</label>
+            <div class="coupon__row">
+              <input id="fCupon" type="text" placeholder="Ej: THOMAS10" autocomplete="off" autocapitalize="characters" spellcheck="false">
+              <button class="btn btn--ghost btn--sm" type="button" id="cuponBtn">Aplicar</button>
+            </div>
+          </div>
+          <div class="coupon__status" id="cuponStatus" role="status" aria-live="polite" hidden></div>
+        </div>
+
         <form id="orderForm" class="checkout" novalidate>
           <details class="encargo" id="encargoBox">
             <summary>¿Buscas otro modelo o talla? <strong>Encárgalo</strong></summary>
@@ -377,6 +389,7 @@
         </form>
       </div>
       <footer class="bag__foot">
+        <div class="bag__sums" id="bagSums" hidden></div>
         <div class="bag__total"><span id="bagTotalLabel">Total</span><strong id="bagTotal">$0</strong></div>
         <p class="bag__hint" id="bagHint"></p>
         <p class="form__error" id="formError" hidden></p>

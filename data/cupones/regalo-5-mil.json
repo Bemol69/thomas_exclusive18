@@ -1,0 +1,11 @@
+{
+  "titulo": "Regalo $5.000 (compra mínima $30.000)",
+  "codigo": "REGALO5MIL",
+  "tipo": "monto",
+  "valor": 5000,
+  "categorias": [],
+  "productos": [],
+  "minimo": 30000,
+  "vence": "",
+  "activo": false
+}
