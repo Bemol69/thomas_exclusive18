@@ -1,10 +1,6 @@
 {
   "nombre": "ROPA",
-  "productos": [
-    "conjunto-lacoste-azul",
-    "conjunto-ea7",
-    "poleron-diesel"
-  ],
+  "productos": [],
   "orden": 20,
   "visible": true
 }
