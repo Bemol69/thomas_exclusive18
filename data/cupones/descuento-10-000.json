@@ -1,0 +1,11 @@
+{
+  "titulo": "DESCUENTO 10.000",
+  "codigo": "DESCUENTOVIP",
+  "tipo": "porcentaje",
+  "valor": 10,
+  "categorias": [],
+  "productos": [],
+  "minimo": null,
+  "vence": "",
+  "activo": true
+}
