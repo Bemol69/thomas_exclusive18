@@ -1,0 +1,16 @@
+{
+  "nombre": "POLERA EMPORIO ARMANI",
+  "precio": 12000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 9.10.21 PM.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "S",
+    "M"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}
