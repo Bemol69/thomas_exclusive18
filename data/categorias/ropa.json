@@ -1,6 +1,22 @@
 {
   "nombre": "POLERONES",
-  "productos": [],
-  "orden": 20,
+  "productos": [
+    "poleron-armani",
+    "poleron-armani-1",
+    "poleron-armani-2",
+    "poleron-boss",
+    "poleron-boss-1",
+    "poleron-calvin-klein",
+    "poleron-diesel",
+    "poleron-diesel-1",
+    "poleron-ea7",
+    "poleron-ea7-1",
+    "poleron-ea7-2",
+    "poleron-gstar",
+    "poleron-jordan",
+    "poleron-kenzo",
+    "poleron-versace"
+  ],
+  "orden": 5,
   "visible": true
 }
