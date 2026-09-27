@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERON EA7",
+  "precio": 28000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 9.48.11 PM.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "S"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 100,
+  "agotado": false,
+  "visible": true
+}
