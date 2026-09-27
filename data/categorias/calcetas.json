@@ -1,6 +1,10 @@
 {
-  "nombre": "Productos cuidado zapatillas!",
-  "productos": [],
+  "nombre": "PRODUCTOS PARA ZAPATILLAS",
+  "productos": [
+    "kit-de-limpieza",
+    "hormadores",
+    "shield-antiarrugas"
+  ],
   "orden": 30,
   "visible": true
 }

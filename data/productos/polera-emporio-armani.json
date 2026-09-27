@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERA EMPORIO ARMANI",
+  "precio": 15000,
+  "foto": "/img/productos/IMG_4548.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "S"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 2,
+  "agotado": false,
+  "visible": true
+}

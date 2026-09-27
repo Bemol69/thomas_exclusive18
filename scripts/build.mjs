@@ -20,8 +20,9 @@ const ajustes = readData('ajustes.json');
 const flyer = readData('flyer.json');        // flyer de ofertas (editable en /admin)
 const entregasData = readData('entregas.json'); // 3 fotos o videos de «Entregas reales» (editable en /admin)
 
-// En Vercel se usa el dominio de producción (se actualiza solo al conectar un dominio propio)
-const SITE = (process.env.VERCEL_PROJECT_PRODUCTION_URL
+// Manda el dominio propio de site_url; si todavía es un .vercel.app, se usa el dominio de producción de Vercel
+const propio = config.site_url && !/\.vercel\.app/.test(config.site_url);
+const SITE = (!propio && process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : config.site_url || 'http://localhost:5600').replace(/\/$/, '');
 
@@ -41,6 +42,7 @@ const T = {
   ciudad: str(ajustes.ciudad),
   region: str(ajustes.region),
   envios: str(ajustes.envios),
+  empresas_envio: (Array.isArray(ajustes.empresas_envio) ? ajustes.empresas_envio : ['Starken', 'Chilexpress', 'Blue Express']).map(str).filter(Boolean),
   horario_dias: str(ajustes.horario_dias),
   hora_abre: str(ajustes.hora_abre),
   hora_cierra: str(ajustes.hora_cierra),
@@ -111,6 +113,9 @@ const productos = readFolder('productos')
     nombre: p.nombre.trim(),
     precio: Math.max(0, Math.round(num(p.precio, 0))),
     foto: typeof p.foto === 'string' && p.foto ? p.foto.replace(/^\//, '') : 'img/logo.jpg',
+    fotos: (Array.isArray(p.fotos) ? p.fotos : []).filter((f) => typeof f === 'string' && f).map((f) => f.replace(/^\//, '')),
+    // tallas únicas y sin vacíos ("40", "42"…); números del CMS se pasan a texto
+    tallas: [...new Set((Array.isArray(p.tallas) ? p.tallas : []).map((t) => str(t)).filter(Boolean))],
     descripcion: typeof p.descripcion === 'string' ? p.descripcion.trim() : '',
     incluye: Array.isArray(p.incluye) ? p.incluye.map((i) => String(i).trim()).filter(Boolean) : [],
     etiqueta: typeof p.etiqueta === 'string' ? p.etiqueta.trim() : '',
@@ -180,6 +185,7 @@ const VARS = {
   // Solo lo que necesita el navegador (app.js)
   TIENDA_JSON: JSON.stringify({
     nombre: T.nombre, whatsapp: T.whatsapp, ciudad: T.ciudad, hora_abre: T.hora_abre, hora_cierra: T.hora_cierra,
+    empresas_envio: T.empresas_envio,
   }),
 };
 
@@ -203,22 +209,24 @@ function render(text, file, escape) {
 // ---------- 4. SEO ----------
 const card = (p) => `
     <article class="card${p.agotado ? ' is-soldout' : ''}">
-      <div class="card__img">
+      <button class="card__img" type="button" data-view="${esc(p.id)}" aria-label="Ver ${esc(p.nombre)}">
         ${p.agotado ? '<span class="badge badge--soldout">Agotado</span>' : p.etiqueta ? `<span class="badge">${esc(p.etiqueta)}</span>` : ''}
+        ${p.fotos.length ? `<span class="card__more">+${p.fotos.length} ${p.fotos.length === 1 ? 'foto' : 'fotos'}</span>` : ''}
         <img src="${esc(p.foto)}" alt="${esc(p.nombre)}" loading="lazy">
-      </div>
+        ${p.fotos[0] ? `<img class="alt" src="${esc(p.fotos[0])}" alt="" loading="lazy">` : ''}
+      </button>
       <div class="card__body">
         <h3>${esc(p.nombre)}</h3>
         ${p.descripcion ? `<p class="card__desc">${esc(p.descripcion)}</p>` : ''}
-        ${p.incluye.length ? `<ul>${p.incluye.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}
+        ${p.tallas.length ? `<ul class="sizes" aria-label="Tallas disponibles">${p.tallas.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
         <div class="card__foot">
           <span class="price${p.precio > 0 ? '' : ' price--ask'}">${p.precio > 0 ? clp(p.precio) : 'Consultar precio'}</span>
           ${p.agotado
             ? `<a class="btn btn--ghost btn--sm" target="_blank" rel="noopener" href="${esc(`https://api.whatsapp.com/send?phone=${T.whatsapp}&text=${encodeURIComponent(`Hola! ¿Tienen stock de ${p.nombre}?`)}`)}">Consultar stock</a>`
-            : `<button class="btn btn--primary btn--sm" data-order="${esc(p.id)}">Pedir</button>`}
+            : `<button class="btn btn--primary btn--sm" type="button" data-view="${esc(p.id)}">${p.tallas.length > 1 ? 'Elegir talla' : 'Agregar'}</button>`}
         </div>
       </div>
-    </article>`; // misma tarjeta que renderProducts() en app.js
+    </article>`; // misma tarjeta que card() en app.js
 
 const entregaHtml = (e) => `
           <figure class="reel">
@@ -247,6 +255,9 @@ const jsonLd = {
       logo: abs('img/logo.jpg'),
       image: [OG_IMAGE, abs('img/logo.jpg')],
       email: T.email || undefined,
+      telephone: `+${T.whatsapp}`,
+      // zona de entregas presenciales + envíos a todo Chile
+      areaServed: [T.ciudad, 'Machalí', 'Chile'].filter(Boolean).map((name) => ({ '@type': name === 'Chile' ? 'Country' : 'City', name })),
       priceRange: precios.length ? `${clp(Math.min(...precios))} – ${clp(Math.max(...precios))}` : undefined,
       currenciesAccepted: 'CLP',
       address: {
@@ -267,21 +278,29 @@ const jsonLd = {
     {
       '@type': 'ItemList',
       name: 'Catálogo',
-      itemListElement: productos.map((p, i) => ({
+      // Google exige precio en los Product: los "Consultar precio" quedan fuera de los datos estructurados
+      itemListElement: productos.filter((p) => p.precio > 0).map((p, i) => ({
         '@type': 'ListItem',
         position: i + 1,
         item: {
           '@type': 'Product',
           name: p.nombre,
-          image: abs(p.foto),
+          image: [p.foto, ...p.fotos].map(abs),
           description: p.descripcion || p.incluye.join(', ') || p.nombre,
-          offers: p.precio > 0 ? {
+          offers: {
             '@type': 'Offer',
+            url: `${SITE}/#catalogo`,
             price: p.precio,
             priceCurrency: 'CLP',
             availability: `https://schema.org/${p.agotado ? 'OutOfStock' : 'InStock'}`,
             seller: { '@id': `${SITE}/#tienda` },
-          } : undefined,
+            // la tienda no acepta cambios ni devoluciones
+            hasMerchantReturnPolicy: {
+              '@type': 'MerchantReturnPolicy',
+              applicableCountry: 'CL',
+              returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+            },
+          },
         },
       })),
     },
@@ -313,8 +332,10 @@ html = render(html, 'index.html', true)
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'data'), { recursive: true });
 cpSync(join(ROOT, 'img'), join(DIST, 'img'), { recursive: true });
+if (existsSync(join(ROOT, 'favicon.ico'))) cpSync(join(ROOT, 'favicon.ico'), join(DIST, 'favicon.ico')); // Google busca el ícono aquí
 cpSync(join(ROOT, 'admin'), join(DIST, 'admin'), { recursive: true });
 cpSync(join(DATA, 'catalogo.json'), join(DIST, 'data', 'catalogo.json'));
+cpSync(join(DATA, 'regiones.json'), join(DIST, 'data', 'regiones.json'));
 writeFileSync(join(DIST, 'index.html'), html);
 writeFileSync(join(DIST, 'styles.css'), render(readFileSync(join(ROOT, 'styles.css'), 'utf8'), 'styles.css', false));
 writeFileSync(join(DIST, 'app.js'), render(readFileSync(join(ROOT, 'app.js'), 'utf8'), 'app.js', false));

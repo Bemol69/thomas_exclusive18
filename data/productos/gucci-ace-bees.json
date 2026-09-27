@@ -2,7 +2,12 @@
   "nombre": "Gucci Ace · GG Supreme Bees",
   "precio": 110000,
   "foto": "/img/productos/gucci-ace-bees.jpg",
-  "descripcion": "Lona GG Supreme con franja Web verde y roja y abejas bordadas.\nTALLAS DISPONIBLES 40-41🚛",
+  "fotos": [],
+  "descripcion": "Lona GG Supreme con franja Web verde y roja y abejas bordadas.",
+  "tallas": [
+    "40",
+    "41"
+  ],
   "incluye": [],
   "etiqueta": "",
   "orden": 20,

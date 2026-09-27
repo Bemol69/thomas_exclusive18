@@ -2,7 +2,9 @@
   "nombre": "Calcetas Jordan · Tripack",
   "precio": 6000,
   "foto": "/img/productos/calcetas-jordan-tripack.jpg",
+  "fotos": [],
   "descripcion": "Tres pares de caña alta con el logo Jumpman. Negras, blancas o grises.",
+  "tallas": [],
   "incluye": [
     "2 tripacks por $10.000"
   ],

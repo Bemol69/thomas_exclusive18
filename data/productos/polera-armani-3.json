@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERA ARMANI",
+  "precio": 12000,
+  "foto": "/img/productos/IMG_4556.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "L"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}

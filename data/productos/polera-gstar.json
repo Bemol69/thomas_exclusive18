@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERA GSTAR",
+  "precio": 15000,
+  "foto": "/img/productos/IMG_4549.webp",
+  "fotos": [],
+  "descripcion": "POLERA SIMPLE GSTAR!",
+  "tallas": [
+    "S"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1,
+  "agotado": false,
+  "visible": true
+}

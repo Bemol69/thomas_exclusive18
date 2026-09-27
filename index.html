@@ -6,8 +6,9 @@
   <title>%%SEO_TITULO%%</title>
   <meta name="description" content="%%SEO_DESCRIPCION%%">
   <meta name="theme-color" content="%%COLOR_FONDO%%">
-  <link rel="icon" href="img/logo.jpg">
-  <link rel="apple-touch-icon" href="img/logo.jpg">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/img/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <!-- SEO:HEAD (lo completa scripts/build.mjs: canonical, Open Graph y datos estructurados) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +36,11 @@
       <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
       <symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.28-3.66a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.8a1 1 0 0 1-.96-.73L2.01 6.02a.5.5 0 0 1 .8-.52l4.28 3.66a1 1 0 0 0 1.52-.3zM5 21h14"/></symbol>
       <symbol id="i-cash" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></symbol>
+      <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+      <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9 4.5 4h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></symbol>
       <symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.42l8.7 8.7a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5"/></symbol>
     </defs>
   </svg>
@@ -57,7 +63,10 @@
         <!-- SI:INSTAGRAM --><a class="icon-btn" href="https://www.instagram.com/%%INSTAGRAM%%/" target="_blank" rel="noopener" aria-label="Instagram de %%NOMBRE%%" title="Instagram">
           <svg class="ic"><use href="#i-ig"/></svg>
         </a><!-- /SI:INSTAGRAM -->
-        <button class="btn btn--primary btn--sm" data-order>Pedir ahora</button>
+        <button class="bag-btn" type="button" data-open-bag aria-label="Abrir mi bolsa">
+          <svg class="ic"><use href="#i-bag"/></svg><span class="bag-btn__label">Bolsa</span>
+          <span class="bag-btn__n" id="bagCount" hidden>0</span>
+        </button>
       </div>
     </div>
   </header>
@@ -139,7 +148,7 @@
         </div>
         <div class="grid" id="productGrid"><!-- SEO:PRODUCTOS --></div>
         <div class="center">
-          <button class="btn btn--ghost" data-order="encargo">¿Buscas otro modelo? Haz tu encargo</button>
+          <button class="btn btn--ghost" type="button" data-encargo>¿Buscas otro modelo o talla? Haz tu encargo</button>
         </div>
       </div>
     </section>
@@ -155,7 +164,7 @@
         <div class="section__head">
           <p class="eyebrow">Confianza real</p>
           <h2>Entregas reales a clientes</h2>
-          <p class="muted">Todos los días agendamos entregas en Rancagua y Machalí, y despachamos a regiones por Starken y Chilexpress. Así trabajamos: producto en mano, cliente contento.</p>
+          <p class="muted">Todos los días agendamos entregas en Rancagua y Machalí, y despachamos a regiones por Starken, Chilexpress o Blue Express. Así trabajamos: producto en mano, cliente contento.</p>
         </div>
         <div class="reels">
           <!-- ENTREGAS:LISTA (las escribe scripts/build.mjs desde data/entregas.json) -->
@@ -177,7 +186,7 @@
         <div class="steps">
           <div class="step"><span class="step__n">1</span><h3>Elige tu par</h3><p>Del catálogo, de nuestras historias o cualquier modelo que busques. Te confirmamos stock, talla y precio por WhatsApp.</p></div>
           <div class="step"><span class="step__n">2</span><h3>Reserva con abono</h3><p>Para encargos, dejas un abono por transferencia y te enviamos el comprobante. Tomamos pedidos de todo tipo.</p></div>
-          <div class="step"><span class="step__n">3</span><h3>Recíbelo</h3><p>Entrega presencial en Rancagua y Machalí, o envío a todo Chile por Starken o Chilexpress.</p></div>
+          <div class="step"><span class="step__n">3</span><h3>Recíbelo</h3><p>Entrega presencial en Rancagua y Machalí, o envío a todo Chile por Starken, Chilexpress o Blue Express.</p></div>
         </div>
         <div class="info-grid">
           <article class="panel">
@@ -185,7 +194,7 @@
             <p class="muted">Agendamos la entrega con anticipación. Pagas al recibir con efectivo, transferencia, débito o crédito.</p>
           </article>
           <article class="panel">
-            <header class="panel__head"><span class="tile"><svg class="ic"><use href="#i-box"/></svg></span><div><h3>Envíos a regiones</h3><p>Starken · Chilexpress</p></div></header>
+            <header class="panel__head"><span class="tile"><svg class="ic"><use href="#i-box"/></svg></span><div><h3>Envíos a regiones</h3><p>Starken · Chilexpress · Blue Express</p></div></header>
             <p class="muted">Despachamos a cualquier ciudad de Chile y te mandamos la orden de flete para que sigas tu pedido.</p>
           </article>
           <article class="panel">
@@ -212,7 +221,7 @@
           <article class="trust"><span class="tile"><svg class="ic"><use href="#i-bolt"/></svg></span><h3>Stock inmediato</h3><p>Muchos modelos listos para entregar en Rancagua, sin esperas.</p></article>
           <article class="trust"><span class="tile"><svg class="ic"><use href="#i-cash"/></svg></span><h3>Paga al recibir</h3><p>En entregas presenciales pagas en el momento: efectivo, transferencia, débito o crédito.</p></article>
           <article class="trust"><span class="tile"><svg class="ic"><use href="#i-clock"/></svg></span><h3>Todas las tallas</h3><p>¿No está tu talla? La traemos por encargo, en zapatillas y ropa desde XS a XL.</p></article>
-          <article class="trust"><span class="tile"><svg class="ic"><use href="#i-globe"/></svg></span><h3>Envíos a todo Chile</h3><p>Compra desde donde estés: despachamos por Starken y Chilexpress.</p></article>
+          <article class="trust"><span class="tile"><svg class="ic"><use href="#i-globe"/></svg></span><h3>Envíos a todo Chile</h3><p>Compra desde donde estés: despachamos por Starken, Chilexpress o Blue Express.</p></article>
           <article class="trust"><span class="tile"><svg class="ic"><use href="#i-shield"/></svg></span><h3>Clientes reales</h3><p>Entregas, abonos y recomendaciones de clientes publicadas en nuestras historias destacadas.</p></article>
         </div>
       </div>
@@ -251,47 +260,134 @@
 
   <a class="wa-float" id="floatWa" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg class="ic"><use href="#i-chat"/></svg></a>
 
-  <!-- MODAL DE PEDIDO -->
-  <div class="modal" id="orderModal" aria-hidden="true">
+  <!-- FICHA DE PRODUCTO -->
+  <div class="modal" id="productModal" aria-hidden="true">
     <div class="modal__backdrop" data-close></div>
-    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="modal__close" data-close aria-label="Cerrar">×</button>
-      <h2 id="modalTitle">Tu pedido</h2>
-      <form id="orderForm" novalidate>
-        <label>Producto
-          <select id="fModelo"></select>
-        </label>
-        <label id="fOtroWrap" hidden>¿Qué modelo buscas?
-          <input id="fOtro" type="text" placeholder="Ej: Bape Sta azul, talla 42 · Polerón Amiri M">
-        </label>
-        <div class="row">
-          <label>Talla
-            <input id="fTalla" type="text" placeholder="Ej: 42 o M">
-          </label>
-          <label>Tu nombre
-            <input id="fCliente" type="text" placeholder="Quién compra">
-          </label>
+    <div class="modal__panel pm" role="dialog" aria-modal="true" aria-labelledby="pmName">
+      <button class="modal__close" type="button" data-close aria-label="Cerrar">×</button>
+      <div class="pm__media">
+        <div class="pm__frame">
+          <img id="pmImg" src="img/logo.jpg" alt="">
+          <button class="pm__nav pm__nav--prev" type="button" data-step-photo="-1" aria-label="Foto anterior">‹</button>
+          <button class="pm__nav pm__nav--next" type="button" data-step-photo="1" aria-label="Foto siguiente">›</button>
         </div>
-        <fieldset>
-          <legend>Tipo de entrega</legend>
-          <div class="radios">
-            <label class="radio"><input type="radio" name="entrega" value="retiro" checked><span>Entrega en Rancagua</span></label>
-            <label class="radio"><input type="radio" name="entrega" value="machali"><span>Entrega en Machalí</span></label>
-            <label class="radio"><input type="radio" name="entrega" value="region"><span>Envío a todo Chile</span></label>
+        <div class="pm__thumbs" id="pmThumbs"></div>
+      </div>
+      <div class="pm__info">
+        <p class="eyebrow" id="pmCat"></p>
+        <h2 id="pmName"></h2>
+        <p class="pm__price" id="pmPrice"></p>
+        <p class="pm__desc" id="pmDesc"></p>
+        <div id="pmSizesWrap">
+          <p class="pm__label">Talla <span id="pmSizeHint"></span></p>
+          <div class="pm__sizes" id="pmSizes" role="radiogroup" aria-label="Elige tu talla"></div>
+        </div>
+        <div class="pm__qty">
+          <p class="pm__label">Cantidad</p>
+          <div class="qty qty--lg">
+            <button type="button" data-qty="-1" aria-label="Menos">−</button>
+            <span id="pmQty">1</span>
+            <button type="button" data-qty="1" aria-label="Más">+</button>
           </div>
-        </fieldset>
-        <label data-delivery hidden>Comuna / Ciudad de envío
-          <input id="fComuna" type="text" placeholder="Ej: Temuco">
-        </label>
-        <div class="preview">
-          <p class="preview__label">Así llegará tu mensaje</p>
-          <div id="msgPreview"></div>
         </div>
-        <p class="form__error" id="formError" hidden></p>
-        <button type="submit" class="btn btn--whatsapp btn--block">Enviar pedido por WhatsApp</button>
-      </form>
+        <p class="form__error" id="pmError" hidden></p>
+        <button class="btn btn--primary btn--block btn--lg" type="button" id="pmAdd"><svg class="ic"><use href="#i-bag"/></svg> Agregar a la bolsa</button>
+        <a class="btn btn--ghost btn--block" id="pmAsk" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Consultar por WhatsApp</a>
+      </div>
     </div>
   </div>
+
+  <!-- BOLSA + PEDIDO -->
+  <aside class="bag" id="bag" aria-hidden="true">
+    <div class="bag__backdrop" data-close-bag></div>
+    <div class="bag__panel" role="dialog" aria-modal="true" aria-labelledby="bagTitle">
+      <header class="bag__head">
+        <h2 id="bagTitle">Tu pedido</h2>
+        <button class="modal__close" type="button" data-close-bag aria-label="Cerrar">×</button>
+      </header>
+      <div class="bag__body">
+        <div class="bag__empty" id="bagEmpty">
+          <svg class="ic"><use href="#i-bag"/></svg>
+          <p>Tu bolsa está vacía. Agrega productos del catálogo o escribe tu encargo aquí abajo.</p>
+          <a class="btn btn--ghost btn--sm" href="#catalogo" data-close-bag>Ver catálogo</a>
+        </div>
+        <ul class="bag__list" id="bagList"></ul>
+
+        <form id="orderForm" class="checkout" novalidate>
+          <details class="encargo" id="encargoBox">
+            <summary>¿Buscas otro modelo o talla? <strong>Encárgalo</strong></summary>
+            <textarea id="fEncargo" rows="2" placeholder="Ej: Bape Sta azul talla 42 · Polerón Amiri M"></textarea>
+          </details>
+
+          <p class="checkout__step"><span>1</span> Tus datos</p>
+          <label>Nombre y apellido
+            <input id="fNombre" type="text" autocomplete="name" placeholder="Ej: Matías Soto">
+          </label>
+
+          <p class="checkout__step"><span>2</span> Entrega</p>
+          <div class="seg seg--3" role="radiogroup" aria-label="Tipo de entrega">
+            <label><input type="radio" name="entrega" value="rancagua" checked><span><svg class="ic"><use href="#i-pin"/></svg>Rancagua</span></label>
+            <label><input type="radio" name="entrega" value="machali"><span><svg class="ic"><use href="#i-pin"/></svg>Machalí</span></label>
+            <label><input type="radio" name="entrega" value="envio"><span><svg class="ic"><use href="#i-truck"/></svg>Envío a Chile</span></label>
+          </div>
+
+          <label data-local>Sector o punto de entrega <small>(opcional)</small>
+            <input id="fSector" type="text" placeholder="Ej: Mall Plaza América, Villa Triana…">
+          </label>
+
+          <div class="ship" data-envio hidden>
+            <div class="row">
+              <label>Región
+                <select id="fRegion"><option value="">Elige tu región</option></select>
+              </label>
+              <label>Comuna
+                <select id="fComuna" disabled><option value="">Primero la región</option></select>
+              </label>
+            </div>
+            <p class="pm__label">Empresa de envío</p>
+            <div class="seg couriers" id="fCourier" role="radiogroup" aria-label="Empresa de envío"></div>
+            <div class="seg seg--2" role="radiogroup" aria-label="Modalidad de envío">
+              <label><input type="radio" name="modo" value="sucursal" checked><span><svg class="ic"><use href="#i-store"/></svg>Retiro en sucursal</span></label>
+              <label><input type="radio" name="modo" value="domicilio"><span><svg class="ic"><use href="#i-home"/></svg>A domicilio</span></label>
+            </div>
+            <label data-modo="sucursal">Sucursal donde retiras
+              <input id="fSucursal" type="text" placeholder="Nombre o dirección de la sucursal">
+            </label>
+            <a class="locator" id="fLocator" data-modo="sucursal" target="_blank" rel="noopener"></a>
+            <label data-modo="domicilio" hidden>Dirección de entrega
+              <input id="fDireccion" type="text" autocomplete="street-address" placeholder="Calle, número, depto">
+            </label>
+          </div>
+
+          <p class="checkout__step"><span>3</span> Pago</p>
+          <div class="seg seg--3" role="radiogroup" aria-label="Medio de pago">
+            <label><input type="radio" name="pago" value="transferencia" checked><span>Transferencia</span></label>
+            <label data-local><input type="radio" name="pago" value="efectivo"><span>Efectivo</span></label>
+            <label><input type="radio" name="pago" value="tarjeta"><span>Débito / Crédito</span></label>
+          </div>
+
+          <label>Comentario <small>(opcional)</small>
+            <input id="fNota" type="text" placeholder="Ej: horario para la entrega, otro color…">
+          </label>
+
+          <div class="preview">
+            <p class="preview__label">Así llegará tu mensaje</p>
+            <div id="msgPreview"></div>
+          </div>
+        </form>
+      </div>
+      <footer class="bag__foot">
+        <div class="bag__total"><span id="bagTotalLabel">Total</span><strong id="bagTotal">$0</strong></div>
+        <p class="bag__hint" id="bagHint"></p>
+        <p class="form__error" id="formError" hidden></p>
+        <button class="btn btn--whatsapp btn--block btn--lg" type="submit" form="orderForm"><svg class="ic"><use href="#i-chat"/></svg> Enviar pedido por WhatsApp</button>
+        <p class="bag__legal">Sin cambios ni devoluciones: confirma tu talla antes de pagar.</p>
+      </footer>
+    </div>
+  </aside>
+
+  <button class="fab" type="button" data-open-bag hidden><svg class="ic"><use href="#i-bag"/></svg><span id="fabLabel">Mi bolsa</span></button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <!-- SI:FLYER_POPUP -->
   <!-- VENTANA EMERGENTE DEL FLYER (una vez por visita) -->

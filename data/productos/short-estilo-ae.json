@@ -2,7 +2,16 @@
   "nombre": "SHORT ESTILO AE",
   "precio": 20000,
   "foto": "/img/productos/IMG_4467.webp",
-  "descripcion": "SHORT ESTILO AE👹\nTALLAS DISPONIBLES 40-42-44-46-48-50👹",
+  "fotos": [],
+  "descripcion": "Short de mezclilla negro estilo AE.",
+  "tallas": [
+    "40",
+    "42",
+    "44",
+    "46",
+    "48",
+    "50"
+  ],
   "incluye": [],
   "etiqueta": "",
   "orden": 1,
