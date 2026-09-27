@@ -1,0 +1,15 @@
+{
+  "nombre": "POLERON VERSACE",
+  "precio": 28000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 9.59.57 PM (1).webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "M"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}
