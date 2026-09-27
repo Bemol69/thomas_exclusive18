@@ -47,6 +47,7 @@
       </a>
       <nav class="nav__links">
         <a href="#catalogo">Catálogo</a>
+        <!-- SI:FLYER --><a href="#ofertas">Ofertas</a><!-- /SI:FLYER -->
         <a href="#entregas">Entregas reales</a>
         <a href="#encargos">Encargos</a>
         <a href="#confianza">Por qué elegirnos</a>
@@ -94,6 +95,26 @@
       </div>
     </div>
 
+    <!-- SI:FLYER -->
+    <!-- OFERTAS (flyer editable en /admin → Flyer y entregas) -->
+    <section id="ofertas" class="section promo">
+      <div class="container promo__inner">
+        <a class="promo__img" href="%%FLYER_WA%%" target="_blank" rel="noopener">
+          <img src="%%FLYER%%" alt="%%FLYER_ALT%%" loading="lazy" width="1080" height="1350">
+        </a>
+        <div class="promo__text">
+          <p class="eyebrow"><span class="dot"></span> Promoción vigente</p>
+          <h2>%%FLYER_TITULO%%</h2>
+          <!-- SI:FLYER_TEXTO --><p class="lead">%%FLYER_TEXTO%%</p><!-- /SI:FLYER_TEXTO -->
+          <div class="hero__cta">
+            <a class="btn btn--whatsapp" href="%%FLYER_WA%%" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Quiero esta oferta</a>
+            <a class="btn btn--ghost" href="#catalogo">Ver catálogo <svg class="ic"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /SI:FLYER -->
+
     <!-- CATÁLOGO -->
     <section id="catalogo" class="section">
       <div class="container">
@@ -137,18 +158,7 @@
           <p class="muted">Todos los días agendamos entregas en Rancagua y Machalí, y despachamos a regiones por Starken y Chilexpress. Así trabajamos: producto en mano, cliente contento.</p>
         </div>
         <div class="reels">
-          <figure class="reel">
-            <img src="img/entregas/entrega-1.jpg" alt="Entrega presencial de un pedido en Rancagua" loading="lazy">
-            <figcaption><strong>Entrega presencial</strong><span>Pedido entregado en Rancagua</span></figcaption>
-          </figure>
-          <figure class="reel">
-            <img src="img/entregas/entrega-2.jpg" alt="Thomas entregando un pedido a domicilio" loading="lazy">
-            <figcaption><strong>Todos los días</strong><span>Agendamos entregas a diario</span></figcaption>
-          </figure>
-          <figure class="reel">
-            <img src="img/entregas/entrega-3.jpg" alt="Entrega de zapatillas a un cliente en la calle" loading="lazy">
-            <figcaption><strong>Paga al recibir</strong><span>Efectivo, transferencia o tarjeta</span></figcaption>
-          </figure>
+          <!-- ENTREGAS:LISTA (las escribe scripts/build.mjs desde data/entregas.json) -->
         </div>
         <div class="center">
           <a class="btn btn--ghost" href="https://www.instagram.com/%%INSTAGRAM%%/" target="_blank" rel="noopener"><svg class="ic"><use href="#i-ig"/></svg> Ver más entregas y clientes en Instagram</a>
@@ -282,6 +292,21 @@
       </form>
     </div>
   </div>
+
+  <!-- SI:FLYER_POPUP -->
+  <!-- VENTANA EMERGENTE DEL FLYER (una vez por visita) -->
+  <div class="modal promo-modal" id="promoModal" aria-hidden="true" data-flyer="%%FLYER_POPUP%%">
+    <div class="modal__backdrop" data-promo-close></div>
+    <div class="modal__panel promo-modal__panel" role="dialog" aria-modal="true" aria-label="%%FLYER_TITULO%%">
+      <button class="modal__close" data-promo-close aria-label="Cerrar">×</button>
+      <a href="%%FLYER_WA%%" target="_blank" rel="noopener"><img src="%%FLYER_POPUP%%" alt="%%FLYER_ALT%%" width="1080" height="1350"></a>
+      <div class="promo-modal__actions">
+        <a class="btn btn--whatsapp btn--block" href="%%FLYER_WA%%" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg> Quiero esta oferta</a>
+        <button class="btn btn--ghost btn--block" data-promo-close>Ver la tienda</button>
+      </div>
+    </div>
+  </div>
+  <!-- /SI:FLYER_POPUP -->
 
   <script src="app.js" charset="utf-8"></script>
 </body>

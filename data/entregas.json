@@ -1,0 +1,22 @@
+{
+  "entregas": [
+    {
+      "archivo": "/img/entregas/entrega-1.jpg",
+      "titulo": "Entrega presencial",
+      "texto": "Pedido entregado en Rancagua",
+      "descripcion": "Entrega presencial de un pedido en Rancagua"
+    },
+    {
+      "archivo": "/img/entregas/entrega-2.jpg",
+      "titulo": "Todos los días",
+      "texto": "Agendamos entregas a diario",
+      "descripcion": "Thomas entregando un pedido a domicilio"
+    },
+    {
+      "archivo": "/img/entregas/entrega-3.jpg",
+      "titulo": "Paga al recibir",
+      "texto": "Efectivo, transferencia o tarjeta",
+      "descripcion": "Entrega de zapatillas a un cliente en la calle"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 // Arma la web para publicar. Vercel lo ejecuta en cada cambio (ver vercel.json).
 //  1. Lee tienda.config.json (lo define el desarrollador) y data/ajustes.json (lo edita el cliente en /admin)
+//     y data/flyer.json + data/entregas.json (flyer de ofertas y videos de entregas, también desde /admin)
 //  2. Junta data/productos/*.json y data/categorias/*.json en data/catalogo.json
 //  3. Copia el sitio a dist/ reemplazando los %%MARCADORES%%, escribe los productos dentro
 //     del HTML (para Google) y genera canonical, Open Graph, datos estructurados, robots.txt y sitemap.xml
@@ -14,7 +15,10 @@ const DIST = join(ROOT, 'dist');
 
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 const config = readJson(join(ROOT, 'tienda.config.json'));
-const ajustes = existsSync(join(DATA, 'ajustes.json')) ? readJson(join(DATA, 'ajustes.json')) : {};
+const readData = (file) => (existsSync(join(DATA, file)) ? readJson(join(DATA, file)) : {});
+const ajustes = readData('ajustes.json');
+const flyer = readData('flyer.json');        // flyer de ofertas (editable en /admin)
+const entregasData = readData('entregas.json'); // 3 fotos o videos de «Entregas reales» (editable en /admin)
 
 // En Vercel se usa el dominio de producción (se actualiza solo al conectar un dominio propio)
 const SITE = (process.env.VERCEL_PROJECT_PRODUCTION_URL
@@ -44,6 +48,35 @@ const T = {
   hero_destacado: str(ajustes.hero_destacado),
   hero_bajada: str(ajustes.hero_bajada),
 };
+
+// ---------- Flyer de ofertas ----------
+const rel = (path) => str(path).replace(/^\//, '');
+const F = {
+  imagen: flyer.mostrar !== false ? rel(flyer.imagen) : '',
+  titulo: str(flyer.titulo) || 'Ofertas',
+  descripcion: str(flyer.descripcion),
+  mensaje: str(flyer.mensaje_whatsapp) || 'Hola! Quiero la oferta 🔥',
+};
+F.popup = F.imagen && flyer.popup !== false ? F.imagen : '';
+
+// ---------- Entregas reales (siempre 3) ----------
+const ENTREGAS_BASE = [
+  { archivo: 'img/entregas/entrega-1.jpg', titulo: 'Entrega presencial', texto: 'Pedido entregado en Rancagua', descripcion: 'Entrega presencial de un pedido en Rancagua' },
+  { archivo: 'img/entregas/entrega-2.jpg', titulo: 'Todos los días', texto: 'Agendamos entregas a diario', descripcion: 'Thomas entregando un pedido a domicilio' },
+  { archivo: 'img/entregas/entrega-3.jpg', titulo: 'Paga al recibir', texto: 'Efectivo, transferencia o tarjeta', descripcion: 'Entrega de zapatillas a un cliente en la calle' },
+];
+const listaEntregas = Array.isArray(entregasData.entregas) ? entregasData.entregas : [];
+const entregas = ENTREGAS_BASE.map((base, i) => {
+  const e = listaEntregas[i] || {};
+  const archivo = rel(e.archivo) || base.archivo;
+  return {
+    archivo,
+    video: /\.(mp4|webm|m4v|mov)$/i.test(archivo),
+    titulo: str(e.titulo) || (e.archivo ? '' : base.titulo),
+    texto: str(e.texto) || (e.archivo ? '' : base.texto),
+    descripcion: str(e.descripcion) || str(e.titulo) || base.descripcion,
+  };
+});
 
 const faltan = ['nombre', 'whatsapp', 'ciudad'].filter((k) => !T[k]);
 if (faltan.length) throw new Error(`Faltan datos obligatorios: ${faltan.join(', ')} (tienda.config.json / data/ajustes.json)`);
@@ -141,6 +174,9 @@ const VARS = {
   COLOR_ACENTO: colores.acento, COLOR_ACENTO_CLARO: colores.acento_claro,
   COLOR_TINTA: colores.tinta, COLOR_TINTA_SUAVE: colores.tinta_suave,
   COLOR_FONDO: colores.fondo, COLOR_EXTRA: colores.extra, COLOR_DORADO: colores.dorado,
+  FLYER: F.imagen, FLYER_POPUP: F.popup, FLYER_TITULO: F.titulo, FLYER_TEXTO: F.descripcion,
+  FLYER_ALT: F.descripcion || F.titulo,
+  FLYER_WA: `https://api.whatsapp.com/send?phone=${T.whatsapp}&text=${encodeURIComponent(F.mensaje)}`,
   // Solo lo que necesita el navegador (app.js)
   TIENDA_JSON: JSON.stringify({
     nombre: T.nombre, whatsapp: T.whatsapp, ciudad: T.ciudad, hora_abre: T.hora_abre, hora_cierra: T.hora_cierra,
@@ -149,7 +185,11 @@ const VARS = {
 
 // Bloques opcionales: <!-- SI:CLAVE --> ... <!-- /SI:CLAVE --> se eliminan si CLAVE está vacía
 function render(text, file, escape) {
-  let out = text.replace(/<!-- SI:([A-Z0-9_]+) -->([\s\S]*?)<!-- \/SI:\1 -->/g, (m, key, body) => (str(VARS[key]) ? body : ''));
+  let out = text;
+  for (let prev; prev !== out;) { // se repite para resolver bloques anidados
+    prev = out;
+    out = out.replace(/<!-- SI:([A-Z0-9_]+) -->([\s\S]*?)<!-- \/SI:\1 -->/g, (m, key, body) => (str(VARS[key]) ? body : ''));
+  }
   const missing = new Set();
   out = out.replace(/%%([A-Z0-9_]+)%%/g, (m, key) => {
     const v = VARS[key];
@@ -179,6 +219,14 @@ const card = (p) => `
         </div>
       </div>
     </article>`; // misma tarjeta que renderProducts() en app.js
+
+const entregaHtml = (e) => `
+          <figure class="reel">
+            ${e.video
+              ? `<video src="${esc(e.archivo)}#t=0.1" muted loop playsinline autoplay preload="metadata" aria-label="${esc(e.descripcion)}"></video>`
+              : `<img src="${esc(e.archivo)}" alt="${esc(e.descripcion)}" loading="lazy">`}
+            ${e.titulo || e.texto ? `<figcaption>${e.titulo ? `<strong>${esc(e.titulo)}</strong>` : ''}${e.texto ? `<span>${esc(e.texto)}</span>` : ''}</figcaption>` : ''}
+          </figure>`;
 
 const OG_IMAGE = abs(heroFoto(0));
 const precios = productos.map((p) => p.precio).filter((n) => n > 0);
@@ -254,12 +302,13 @@ const head = `<link rel="canonical" href="${SITE}/">
 
 // ---------- 5. dist/ ----------
 let html = readFileSync(join(ROOT, 'index.html'), 'utf8');
-for (const marker of ['<!-- SEO:HEAD', '<!-- SEO:PRODUCTOS -->']) {
+for (const marker of ['<!-- SEO:HEAD', '<!-- SEO:PRODUCTOS -->', '<!-- ENTREGAS:LISTA']) {
   if (!html.includes(marker)) throw new Error(`Falta el marcador ${marker} en index.html`);
 }
 html = render(html, 'index.html', true)
   .replace(/<!-- SEO:HEAD[^>]*-->/, head)
-  .replace('<!-- SEO:PRODUCTOS -->', productos.map(card).join(''));
+  .replace('<!-- SEO:PRODUCTOS -->', productos.map(card).join(''))
+  .replace(/<!-- ENTREGAS:LISTA[^>]*-->/, entregas.map(entregaHtml).join(''));
 
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'data'), { recursive: true });

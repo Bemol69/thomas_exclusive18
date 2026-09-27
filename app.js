@@ -183,6 +183,40 @@ form.addEventListener('submit', (e) => {
 
 ['#footerWa', '#contactWa', '#contactWaBtn', '#floatWa'].forEach((s) => { const el = $(s); if (el) el.href = waUrl('Hola! Quiero consultar por un par 🔥'); });
 
+// ===== FLYER EN VENTANA EMERGENTE (una vez por visita) =====
+const promo = $('#promoModal');
+if (promo) {
+  const key = 'flyer-visto:' + promo.dataset.flyer; // un flyer nuevo se vuelve a mostrar
+  const seen = () => { try { return sessionStorage.getItem(key); } catch { return null; } };
+  const closePromo = () => {
+    promo.classList.remove('is-open');
+    promo.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+  promo.addEventListener('click', (e) => { if (e.target.closest('[data-promo-close]')) closePromo(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && promo.classList.contains('is-open')) closePromo(); });
+  if (!seen()) {
+    setTimeout(() => {
+      if (modal.classList.contains('is-open')) return; // no interrumpir un pedido en curso
+      try { sessionStorage.setItem(key, '1'); } catch {}
+      promo.classList.add('is-open');
+      promo.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      promo.querySelector('.modal__close').focus();
+    }, 1500);
+  }
+}
+
+// ===== VIDEOS DE ENTREGAS: solo se reproducen cuando están en pantalla =====
+const reelVideos = document.querySelectorAll('.reel video');
+if (reelVideos.length && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
+    if (isIntersecting) target.play().catch(() => {});
+    else target.pause();
+  }), { threshold: 0.25 });
+  reelVideos.forEach((v) => io.observe(v));
+}
+
 // ===== CARGA DEL CATÁLOGO =====
 async function loadProducts() {
   try {

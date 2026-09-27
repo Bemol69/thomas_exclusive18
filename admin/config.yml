@@ -192,3 +192,71 @@ collections:
           - { name: hero_titulo, label: Título de la portada, widget: string }
           - { name: hero_destacado, label: Parte destacada del título, widget: string, required: false, hint: "Aparece en cursiva y color al final del título." }
           - { name: hero_bajada, label: Texto bajo el título, widget: text }
+
+  # ---------- FLYER Y ENTREGAS (portada, editables por el cliente) ----------
+  - name: inicio
+    label: Flyer y entregas
+    description: "El flyer de ofertas y las 3 fotos o videos de «Entregas reales»."
+    icon: campaign
+    files:
+      - name: flyer
+        label: Flyer de ofertas
+        file: data/flyer.json
+        format: json
+        fields:
+          - name: mostrar
+            label: Mostrar flyer en la web
+            widget: boolean
+            default: true
+            hint: "Apágalo cuando no haya oferta vigente. Se ocultan la sección y la ventana emergente."
+          - name: popup
+            label: Mostrar también como ventana emergente
+            widget: boolean
+            default: true
+            hint: "Aparece una vez por visita al entrar a la página."
+          - name: imagen
+            label: Imagen del flyer
+            widget: image
+            media_folder: /img/flyer
+            public_folder: /img/flyer
+            hint: "Solo hay un flyer a la vez: para cambiarlo, sube la nueva imagen aquí y reemplaza la anterior. Ideal vertical 1080×1350 (formato post de Instagram)."
+          - name: titulo
+            label: Título de la sección
+            widget: string
+            default: "Ofertas de verano"
+            hint: "Aparece junto al flyer. Ej: Ofertas de verano, Black Friday."
+          - name: descripcion
+            label: Texto de la oferta
+            widget: text
+            hint: "Resume lo que dice el flyer (aparece junto a la imagen y ayuda a Google y a personas con lector de pantalla)."
+          - name: mensaje_whatsapp
+            label: Mensaje de WhatsApp
+            widget: string
+            hint: "Lo que se escribe solo cuando tocan «Quiero esta oferta»."
+
+      - name: entregas
+        label: Entregas reales (3 fotos o videos)
+        file: data/entregas.json
+        format: json
+        fields:
+          - name: entregas
+            label: Entregas
+            label_singular: entrega
+            widget: list
+            min: 3
+            max: 3
+            allow_add: false
+            allow_remove: false
+            hint: "Siempre son 3. Para cambiar una, reemplaza su foto o video. Puedes arrastrarlas para cambiar el orden."
+            summary: "{{titulo}}"
+            fields:
+              - name: archivo
+                label: Foto o video
+                widget: file
+                accept: "image/*,video/mp4,video/webm"
+                media_folder: /img/entregas
+                public_folder: /img/entregas
+                hint: "Foto (JPG/PNG) o video MP4 vertical, idealmente de menos de 15 segundos y 20 MB. Los videos se reproducen solos, sin sonido y en loop."
+              - { name: titulo, label: Título, widget: string, hint: "Ej: Entrega presencial" }
+              - { name: texto, label: Bajada, widget: string, required: false, hint: "Ej: Pedido entregado en Rancagua" }
+              - { name: descripcion, label: Descripción de la imagen, widget: string, required: false, hint: "Qué se ve en la foto o video (para Google y lectores de pantalla)." }

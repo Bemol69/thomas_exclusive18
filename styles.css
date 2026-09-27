@@ -128,6 +128,17 @@ p { margin: 0; }
 .reel figcaption strong { font: 700 1.25rem/1 var(--font-title); text-transform: uppercase; }
 .reel figcaption span { font-size: 13px; color: #d6d6da; }
 
+/* Ofertas (flyer) */
+.promo { background: radial-gradient(700px 480px at 20% 40%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 70%); }
+.promo__inner { display: grid; grid-template-columns: minmax(0, 440px) 1fr; gap: 56px; align-items: center; justify-content: center; }
+.promo__img { display: block; border-radius: 20px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--primary) 45%, var(--line)); box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--primary) 55%, #000); transition: transform .25s; }
+.promo__img:hover { transform: translateY(-4px); }
+.promo__img img { width: 100%; height: auto; }
+.modal__panel.promo-modal__panel { width: min(430px, 100%); padding: 0; overflow: auto; }
+.promo-modal__panel img { width: 100%; height: auto; }
+.promo-modal__panel .modal__close { top: 10px; right: 10px; z-index: 1; background: rgba(0, 0, 0, .6); }
+.promo-modal__actions { display: grid; gap: 10px; padding: 16px; }
+
 /* Confianza */
 .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .trust { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; display: flex; flex-direction: column; gap: 10px; transition: border-color .25s, transform .25s; }
@@ -205,6 +216,8 @@ p { margin: 0; }
   .nav__links { display: none; }
   .hero__inner { grid-template-columns: 1fr; gap: 32px; }
   .hero__collage { max-width: 460px; width: 100%; margin-inline: auto; }
+  .promo__inner { grid-template-columns: 1fr; gap: 28px; }
+  .promo__img { max-width: 440px; width: 100%; margin-inline: auto; }
   .trust-grid, .steps, .contact-list { grid-template-columns: 1fr 1fr; }
   .steps .step:last-child { grid-column: 1 / -1; }
 }
