@@ -82,7 +82,7 @@ p { margin: 0; }
 .hero__side--b { right: 4%; bottom: 0; width: 40%; aspect-ratio: 1; }
 
 .marquee { overflow: hidden; border-block: 1px solid var(--line); background: var(--surface); }
-.marquee__track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+.marquee__track { display: flex; width: max-content; animation: marquee var(--dur, 30s) linear infinite; }
 .marquee span { padding: 16px 28px; font: 600 1.05rem/1 var(--font-title); text-transform: uppercase; letter-spacing: .12em; color: var(--ink-soft); white-space: nowrap; }
 .marquee span::after { content: '◆'; margin-left: 56px; color: var(--primary); font-size: .7em; }
 @keyframes marquee { to { transform: translateX(-50%); } }
@@ -392,6 +392,32 @@ button.card__img { display: block; width: 100%; padding: 0; border: 0; cursor: z
 .tag-off { display: inline-block; padding: 3px 7px; border-radius: 6px; background: color-mix(in srgb, #25d366 16%, transparent); color: #5ee08f; font: 700 10.5px/1 var(--font-text); letter-spacing: .05em; text-transform: uppercase; }
 .bag__sums { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-size: 13.5px; color: var(--ink-soft); padding-bottom: 6px; border-bottom: 1px dashed var(--line); }
 .bag__sums .off { color: #5ee08f; font-weight: 700; }
+
+
+/* ===== Franja 2: dos cintas de ofertas cruzadas, estilo cinta de peligro ===== */
+.tapes { position: relative; height: clamp(190px, 22vw, 290px); overflow: hidden; background:
+  radial-gradient(700px 240px at 50% 50%, color-mix(in srgb, var(--primary) 30%, transparent), transparent 70%),
+  repeating-linear-gradient(-45deg, transparent 0 22px, rgba(255, 255, 255, .025) 22px 44px), var(--bg);
+  border-block: 1px solid var(--line); }
+.tape { position: absolute; left: -10%; right: -10%; top: 50%; display: flex; overflow: hidden; }
+.tape--front { transform: translateY(-50%) rotate(-4deg); z-index: 2; background: var(--primary);
+  box-shadow: 0 18px 40px -12px color-mix(in srgb, var(--primary) 70%, transparent), 0 0 0 2px #000 inset; }
+.tape--front::before, .tape--front::after { content: ''; position: absolute; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(-45deg, #000 0 10px, transparent 10px 20px); opacity: .55; }
+.tape--front::before { top: 0; }
+.tape--front::after { bottom: 0; }
+.tape--back { transform: translateY(-50%) rotate(3.5deg); z-index: 1; background: #050505; border-block: 2px solid color-mix(in srgb, var(--primary) 70%, #000); }
+.tape__track { display: flex; width: max-content; animation: marquee var(--dur, 30s) linear infinite; }
+.tape--back .tape__track { animation-direction: reverse; }
+.tape span { display: inline-flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); padding: clamp(14px, 1.6vw, 22px) clamp(14px, 1.6vw, 22px); white-space: nowrap;
+  font: 700 clamp(1.7rem, 3.6vw, 3.1rem)/1 var(--font-title); font-style: italic; text-transform: uppercase; letter-spacing: .01em; }
+.tape--front span { color: #fff; text-shadow: 0 3px 0 rgba(0, 0, 0, .35); }
+.tape--front span:nth-child(even) { color: #0a0a0b; text-shadow: none; }
+.tape--back span { color: transparent; -webkit-text-stroke: 1.5px color-mix(in srgb, #fff 70%, transparent); }
+.tape--back span:nth-child(even) { -webkit-text-stroke-color: var(--primary); }
+.tape span::after { content: ''; flex: none; width: .5em; height: .5em; background: currentColor; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.tape--front span::after { background: #0a0a0b; }
+.tape--front span:nth-child(even)::after { background: #fff; }
+.tape--back span::after { background: var(--primary); }
 
 @media (max-width: 900px) {
   .nav__links { display: none; }

@@ -98,11 +98,9 @@
       </div>
     </section>
 
+    <!-- FRANJA 1 (frases editables en /admin → Flyer, franjas y entregas) -->
     <div class="marquee" aria-hidden="true">
-      <div class="marquee__track">
-        <span>Paga al recibir</span><span>Todo medio de pago</span><span>Stock inmediato</span><span>Encargos con abono</span><span>Detalle y por mayor</span><span>Envíos a todo Chile</span>
-        <span>Paga al recibir</span><span>Todo medio de pago</span><span>Stock inmediato</span><span>Encargos con abono</span><span>Detalle y por mayor</span><span>Envíos a todo Chile</span>
-      </div>
+      <div class="marquee__track" style="--dur: %%FRANJA1_SEG%%s"><!-- FRANJA1 --></div>
     </div>
 
     <!-- SI:FLYER -->
@@ -154,10 +152,13 @@
       </div>
     </section>
 
-    <!-- BANNER DE MARCA -->
-    <div class="brand-band">
-      <img src="img/banner.jpg" alt="Exclusive Store, la tienda de Thomas Exclusive" loading="lazy">
+    <!-- SI:FRANJA2 -->
+    <!-- FRANJA 2: cintas de ofertas cruzadas (frases editables en /admin → Flyer, franjas y entregas) -->
+    <div class="tapes" aria-hidden="true">
+      <div class="tape tape--back"><div class="tape__track" style="--dur: %%FRANJA2_SEG%%s"><!-- FRANJA2 --></div></div>
+      <div class="tape tape--front"><div class="tape__track" style="--dur: %%FRANJA2_SEG%%s"><!-- FRANJA2 --></div></div>
     </div>
+    <!-- /SI:FRANJA2 -->
 
     <!-- ENTREGAS REALES -->
     <section id="entregas" class="section section--alt">

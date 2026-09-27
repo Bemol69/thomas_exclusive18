@@ -310,8 +310,8 @@ collections:
 
   # ---------- FLYER Y ENTREGAS (portada, editables por el cliente) ----------
   - name: inicio
-    label: Flyer y entregas
-    description: "El flyer de ofertas y las 3 fotos o videos de «Entregas reales»."
+    label: Flyer, franjas y entregas
+    description: "El flyer de ofertas, las 2 franjas de texto en movimiento y las 3 fotos o videos de «Entregas reales»."
     icon: campaign
     files:
       - name: flyer
@@ -348,6 +348,48 @@ collections:
             label: Mensaje de WhatsApp
             widget: string
             hint: "Lo que se escribe solo cuando tocan «Quiero esta oferta»."
+
+      - name: franjas
+        label: Franjas de texto
+        file: data/franjas.json
+        format: json
+        fields:
+          - name: franja1
+            label: "Franja 1 (delgada, bajo la portada)"
+            widget: object
+            fields:
+              - name: frases
+                label: Frases
+                label_singular: frase
+                widget: list
+                min: 1
+                field: { name: frase, label: Frase, widget: string }
+                hint: "Una frase corta por línea (2 a 5 palabras). Ej: Paga al recibir, Envíos a todo Chile."
+              - name: velocidad
+                label: Velocidad
+                widget: select
+                options: [{ label: Lenta, value: lenta }, { label: Normal, value: normal }, { label: Rápida, value: rapida }]
+                default: normal
+          - name: franja2
+            label: "Franja 2 (grande, de ofertas)"
+            widget: object
+            fields:
+              - name: mostrar
+                label: Mostrar en la web
+                widget: boolean
+                default: true
+              - name: frases
+                label: Frases
+                label_singular: frase
+                widget: list
+                min: 1
+                field: { name: frase, label: Frase, widget: string }
+                hint: "Frases de oferta, cortas y con fuerza. Ej: Siempre con descuentos, Precios nunca antes vistos, 2x1 en poleras."
+              - name: velocidad
+                label: Velocidad
+                widget: select
+                options: [{ label: Lenta, value: lenta }, { label: Normal, value: normal }, { label: Rápida, value: rapida }]
+                default: normal
 
       - name: entregas
         label: Entregas reales (3 fotos o videos)

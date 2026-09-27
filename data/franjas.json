@@ -1,0 +1,25 @@
+{
+  "franja1": {
+    "frases": [
+      "Paga al recibir",
+      "Todo medio de pago",
+      "Stock inmediato",
+      "Encargos con abono",
+      "Detalle y por mayor",
+      "Envíos a todo Chile"
+    ],
+    "velocidad": "normal"
+  },
+  "franja2": {
+    "mostrar": true,
+    "frases": [
+      "Siempre con descuentos",
+      "Precios nunca antes vistos",
+      "Ofertas todas las semanas",
+      "Calidad premium",
+      "Stock limitado",
+      "Por mayor y al detalle"
+    ],
+    "velocidad": "normal"
+  }
+}

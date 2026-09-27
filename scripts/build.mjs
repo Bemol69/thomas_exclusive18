@@ -20,6 +20,7 @@ const readData = (file) => (existsSync(join(DATA, file)) ? readJson(join(DATA, f
 const ajustes = readData('ajustes.json');
 const flyer = readData('flyer.json');        // flyer de ofertas (editable en /admin)
 const entregasData = readData('entregas.json'); // 3 fotos o videos de «Entregas reales» (editable en /admin)
+const franjasData = readData('franjas.json');   // frases de las 2 franjas en movimiento (editable en /admin)
 
 // Manda el dominio propio de site_url; si todavía es un .vercel.app, se usa el dominio de producción de Vercel
 const propio = config.site_url && !/\.vercel\.app/.test(config.site_url);
@@ -80,6 +81,28 @@ const entregas = ENTREGAS_BASE.map((base, i) => {
     descripcion: str(e.descripcion) || str(e.titulo) || base.descripcion,
   };
 });
+
+// ---------- Franjas de texto en movimiento ----------
+const FRANJAS_BASE = {
+  franja1: ['Paga al recibir', 'Todo medio de pago', 'Stock inmediato', 'Encargos con abono', 'Detalle y por mayor', 'Envíos a todo Chile'],
+  franja2: ['Siempre con descuentos', 'Precios nunca antes vistos', 'Ofertas todas las semanas', 'Calidad premium', 'Stock limitado'],
+};
+const VELOCIDAD = { lenta: 1.6, normal: 1, rapida: 0.6 };
+function franja(key) {
+  const f = franjasData[key] || {};
+  const frases = (Array.isArray(f.frases) ? f.frases : []).map(str).filter(Boolean);
+  const lista = frases.length ? frases : FRANJAS_BASE[key];
+  // la cinta se repite hasta tener ~12 frases por mitad, para que el loop no deje huecos en pantallas anchas
+  const vuelta = [];
+  while (vuelta.length < 12) vuelta.push(...lista);
+  return {
+    mostrar: f.mostrar !== false,
+    items: vuelta,
+    segundos: Math.round(vuelta.length * 5 * (VELOCIDAD[f.velocidad] || 1)),
+  };
+}
+const F1 = franja('franja1');
+const F2 = franja('franja2');
 
 const faltan = ['nombre', 'whatsapp', 'ciudad'].filter((k) => !T[k]);
 if (faltan.length) throw new Error(`Faltan datos obligatorios: ${faltan.join(', ')} (tienda.config.json / data/ajustes.json)`);
@@ -225,6 +248,8 @@ const VARS = {
   COLOR_FONDO: colores.fondo, COLOR_EXTRA: colores.extra, COLOR_DORADO: colores.dorado,
   FLYER: F.imagen, FLYER_POPUP: F.popup, FLYER_TITULO: F.titulo, FLYER_TEXTO: F.descripcion,
   FLYER_ALT: F.descripcion || F.titulo,
+  FRANJA2: F2.mostrar ? '1' : '',
+  FRANJA1_SEG: String(F1.segundos), FRANJA2_SEG: String(F2.segundos),
   FLYER_WA: `https://api.whatsapp.com/send?phone=${T.whatsapp}&text=${encodeURIComponent(F.mensaje)}`,
   // Solo lo que necesita el navegador (app.js)
   TIENDA_JSON: JSON.stringify({
@@ -365,13 +390,16 @@ const head = `<link rel="canonical" href="${SITE}/">
 
 // ---------- 5. dist/ ----------
 let html = readFileSync(join(ROOT, 'index.html'), 'utf8');
-for (const marker of ['<!-- SEO:HEAD', '<!-- SEO:PRODUCTOS -->', '<!-- ENTREGAS:LISTA']) {
+for (const marker of ['<!-- SEO:HEAD', '<!-- SEO:PRODUCTOS -->', '<!-- ENTREGAS:LISTA', '<!-- FRANJA1 -->']) {
   if (!html.includes(marker)) throw new Error(`Falta el marcador ${marker} en index.html`);
 }
 html = render(html, 'index.html', true)
   .replace(/<!-- SEO:HEAD[^>]*-->/, head)
   .replace('<!-- SEO:PRODUCTOS -->', productos.map(card).join(''))
-  .replace(/<!-- ENTREGAS:LISTA[^>]*-->/, entregas.map(entregaHtml).join(''));
+  .replace(/<!-- ENTREGAS:LISTA[^>]*-->/, entregas.map(entregaHtml).join(''))
+  // cada franja lleva sus frases 2 veces seguidas: la animación corre la mitad y vuelve a empezar sin salto
+  .replace('<!-- FRANJA1 -->', [...F1.items, ...F1.items].map((t) => `<span>${esc(t)}</span>`).join(''))
+  .replaceAll('<!-- FRANJA2 -->', [...F2.items, ...F2.items].map((t) => `<span>${esc(t)}</span>`).join(''));
 
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(join(DIST, 'data'), { recursive: true });
