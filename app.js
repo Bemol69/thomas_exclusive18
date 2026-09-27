@@ -137,8 +137,26 @@ let lastFocus = null;
 function showPhoto(i) {
   const g = current.gallery;
   photo = (i + g.length) % g.length;
-  $('#pmImg').src = g[photo];
-  fitImage($('#pmImg'));
+  const img = $('#pmImg');
+  const frame = img.parentElement;
+  const src = g[photo];
+  // La foto se oculta hasta que la nueva está cargada y medida: si no, por un instante se ve la del producto anterior
+  if (img.getAttribute('src') !== src) {
+    frame.classList.add('is-loading');
+    frame.classList.remove('is-fit');
+    img.src = src;
+    const listo = () => {
+      if (img.getAttribute('src') !== src) return; // ya se pidió otra foto
+      fitImage(img);
+      frame.classList.remove('is-loading');
+    };
+    if (img.complete && img.naturalWidth) listo();
+    else {
+      img.addEventListener('load', listo, { once: true });
+      img.addEventListener('error', listo, { once: true });
+      setTimeout(listo, 1200); // seguro: nunca dejar la foto oculta si algo falla
+    }
+  }
   $('#pmThumbs').querySelectorAll('button').forEach((b, k) => b.classList.toggle('is-active', k === photo));
 }
 
@@ -161,6 +179,7 @@ function openProduct(id) {
     : '';
   pModal.classList.toggle('has-gallery', p.gallery.length > 1);
   showPhoto(0);
+  p.gallery.slice(1).forEach((src) => { new Image().src = src; }); // precarga el resto de la galería
   $('#pmCat').textContent = FILTERS.filter(([k]) => p.tags.includes(k)).map(([, l]) => l).join(' · ');
   $('#pmName').textContent = p.name;
   $('#pmPrice').textContent = priceText(p);

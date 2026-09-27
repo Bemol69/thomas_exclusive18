@@ -459,3 +459,8 @@ button.card__img { display: block; width: 100%; padding: 0; border: 0; cursor: z
 .pm__frame { overflow: hidden; }
 .pm__frame.is-fit > img { object-fit: contain; }
 .pm__nav { z-index: 2; }
+
+/* Ficha: la foto se oculta mientras carga la nueva (nunca se ve la del producto anterior) */
+.pm__frame.is-loading img { visibility: hidden; }
+.pm__frame.is-loading { background: linear-gradient(110deg, #0b0b0c 30%, #19191b 50%, #0b0b0c 70%) 0 0 / 200% 100%; animation: pmShimmer 1.1s linear infinite; }
+@keyframes pmShimmer { to { background-position: -200% 0; } }
