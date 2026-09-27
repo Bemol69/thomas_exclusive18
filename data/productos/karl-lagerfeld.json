@@ -1,0 +1,15 @@
+{
+  "nombre": "KARL LAGERFELD",
+  "precio": 12000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-26 at 9.10.19 PM.webp",
+  "fotos": [],
+  "descripcion": "",
+  "tallas": [
+    "M"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1,
+  "agotado": false,
+  "visible": true
+}
