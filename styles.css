@@ -419,6 +419,16 @@ button.card__img { display: block; width: 100%; padding: 0; border: 0; cursor: z
 .tape--front span:nth-child(even)::after { background: #fff; }
 .tape--back span::after { background: var(--primary); }
 
+
+/* ===== Paginación del catálogo ===== */
+.pager { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+.pager__btn { min-width: 46px; height: 46px; padding: 0 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: 700 1.2rem/1 var(--font-title); cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
+.pager__btn:hover:not(:disabled):not(.is-active) { border-color: var(--primary); transform: translateY(-2px); }
+.pager__btn.is-active { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 8px 22px -8px var(--primary); cursor: default; }
+.pager__nav { font-size: 1.6rem; }
+.pager__btn:disabled { opacity: .3; cursor: default; }
+.pager__gap { color: var(--ink-soft); padding: 0 4px; }
+
 @media (max-width: 900px) {
   .nav__links { display: none; }
   .hero__inner { grid-template-columns: 1fr; gap: 32px; }

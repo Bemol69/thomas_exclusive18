@@ -109,14 +109,49 @@ const card = (p) => `
       </div>
     </article>`;
 
-function renderProducts(cat = currentCat) {
+// Catálogo paginado: 20 productos por página para que la página no se haga eterna
+const POR_PAGINA = 20;
+let page = 1;
+
+// Números de página con "…" cuando son muchas: 1 … 4 5 6 … 12
+function pageList(total, cur) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const keep = new Set([1, total, cur - 1, cur, cur + 1]);
+  const out = [];
+  for (let n = 1; n <= total; n++) {
+    if (keep.has(n)) out.push(n);
+    else if (out[out.length - 1] !== '…') out.push('…');
+  }
+  return out;
+}
+
+function renderPager(total) {
+  const pager = $('#pager');
+  pager.hidden = total < 2;
+  if (total < 2) { pager.innerHTML = ''; return; }
+  pager.innerHTML = `
+    <button type="button" class="pager__btn pager__nav" data-page="${page - 1}" ${page === 1 ? 'disabled' : ''} aria-label="Página anterior">‹</button>
+    ${pageList(total, page).map((n) => (n === '…'
+      ? '<span class="pager__gap">…</span>'
+      : `<button type="button" class="pager__btn${n === page ? ' is-active' : ''}" data-page="${n}" ${n === page ? 'aria-current="page"' : ''} aria-label="Página ${n}">${n}</button>`)).join('')}
+    <button type="button" class="pager__btn pager__nav" data-page="${page + 1}" ${page === total ? 'disabled' : ''} aria-label="Página siguiente">›</button>`;
+}
+
+function renderProducts(cat = currentCat, pagina = 1) {
   currentCat = cat;
   let list = cat === 'todos' ? PRODUCTS : PRODUCTS.filter((p) => p.tags.includes(cat));
   const sort = SORTS[$('#sort').value];
   if (sort) list = [...list].sort(sort);
-  $('#count').innerHTML = `Mostrando <strong>${list.length}</strong> ${list.length === 1 ? 'modelo' : 'modelos'}`;
-  grid.innerHTML = list.map(card).join('');
+  const total = Math.max(1, Math.ceil(list.length / POR_PAGINA));
+  page = Math.min(Math.max(1, pagina), total);
+  const desde = (page - 1) * POR_PAGINA;
+  const visibles = list.slice(desde, desde + POR_PAGINA);
+  $('#count').innerHTML = list.length > POR_PAGINA
+    ? `Mostrando <strong>${desde + 1}–${desde + visibles.length}</strong> de <strong>${list.length}</strong> modelos`
+    : `Mostrando <strong>${list.length}</strong> ${list.length === 1 ? 'modelo' : 'modelos'}`;
+  grid.innerHTML = visibles.map(card).join('');
   fitAll(grid);
+  renderPager(total);
 }
 
 filters.addEventListener('click', (e) => {
@@ -126,6 +161,14 @@ filters.addEventListener('click', (e) => {
   renderProducts(btn.dataset.cat);
 });
 $('#sort').addEventListener('change', () => renderProducts());
+$('#pager').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-page]');
+  if (!btn || btn.disabled) return;
+  renderProducts(currentCat, Number(btn.dataset.page));
+  // vuelve al inicio del catálogo (bajo el menú fijo) para ver la página nueva desde arriba
+  const top = $('#filters').getBoundingClientRect().top + window.scrollY - 90;
+  window.scrollTo({ top, behavior: 'smooth' });
+});
 
 // ===== FICHA DE PRODUCTO =====
 const pModal = $('#productModal');
