@@ -1,0 +1,13 @@
+{
+  "titulo": "DESCUENTO POLERON",
+  "codigo": "POLERON15",
+  "tipo": "porcentaje",
+  "valor": 15,
+  "categorias": [
+    "ropa"
+  ],
+  "productos": [],
+  "minimo": null,
+  "vence": "",
+  "activo": true
+}
