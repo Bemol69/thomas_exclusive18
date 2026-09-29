@@ -1,0 +1,17 @@
+{
+  "nombre": "RETRO 6",
+  "precio": 90000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.43.30 PM.webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.43.30 PM (1).webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "41"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 10,
+  "agotado": false,
+  "visible": true
+}

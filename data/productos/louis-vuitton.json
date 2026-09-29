@@ -1,0 +1,18 @@
+{
+  "nombre": "Louis Vuitton",
+  "precio": 75000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.44.34 PM.webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.44.34 PM (1).webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "39",
+    "43"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 10,
+  "agotado": false,
+  "visible": true
+}

@@ -1,0 +1,18 @@
+{
+  "nombre": "DG BLANCA",
+  "precio": 110000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.50.09 PM.webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.50.10 PM.webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "40",
+    "41"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 7,
+  "agotado": false,
+  "visible": true
+}

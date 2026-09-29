@@ -1,0 +1,17 @@
+{
+  "nombre": "Retro 11 COOL GREY",
+  "precio": 85000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.47.29 PM.webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.47.29 PM (1).webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "41"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 10,
+  "agotado": false,
+  "visible": true
+}

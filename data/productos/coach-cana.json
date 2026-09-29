@@ -1,0 +1,17 @@
+{
+  "nombre": "COACH CAÑA",
+  "precio": 115000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.51.04 PM.webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.51.04 PM (1).webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "40"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 6,
+  "agotado": false,
+  "visible": true
+}

@@ -1,0 +1,18 @@
+{
+  "nombre": "RETRO 8 Chrome",
+  "precio": 85000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.47.58 PM (1).webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.47.58 PM.webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "39",
+    "43"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 8,
+  "agotado": false,
+  "visible": true
+}

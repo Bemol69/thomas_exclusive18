@@ -1,0 +1,17 @@
+{
+  "nombre": "EA7",
+  "precio": 75000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 3.01.39 PM (1).webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 3.01.39 PM.webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "41"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 5,
+  "agotado": false,
+  "visible": true
+}

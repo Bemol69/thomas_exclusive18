@@ -1,0 +1,17 @@
+{
+  "nombre": "EMPORIO ARMANI",
+  "precio": 85000,
+  "foto": "/img/productos/WhatsApp Image 2026-09-28 at 2.49.39 PM.webp",
+  "fotos": [
+    "/img/productos/WhatsApp Image 2026-09-28 at 2.49.38 PM.webp"
+  ],
+  "descripcion": "",
+  "tallas": [
+    "41"
+  ],
+  "incluye": [],
+  "etiqueta": "",
+  "orden": 1000,
+  "agotado": false,
+  "visible": true
+}
